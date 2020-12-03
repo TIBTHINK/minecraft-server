@@ -15,7 +15,7 @@ try:
 
     output = run("java -version", capture_output=True).stdout
     if b'java: command not found' in output:
-        print("installing java runtime envirement")
+        print("installing java runtime environment")
         cmd("sudo apt update")
         cmd("sudo apt install openjdk-8-jre-headless")
 
