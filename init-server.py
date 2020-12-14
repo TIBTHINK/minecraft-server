@@ -7,17 +7,14 @@ from subprocess import run
 try:
     version = input("What version of minecraft do you want? (defult is the lastest version): ") or "latest"
 
-    print("Installing BuildTools")
+    print("Downloading required files")
     url = 'https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar'
     buildtools_file= requests.get(url)
     open('./BuildTools.jar', 'wb').write(buildtools_file.content)
-
-
-    output = run("java -version", capture_output=True).stdout
-    if b'java: command not found' in output:
-        print("installing java runtime environment")
-        cmd("sudo apt update")
-        cmd("sudo apt install openjdk-8-jre-headless")
+    cmd("wget https://raw.githubusercontent.com/TIBTHINK/minecraft-server/main/makeMainWorld.py")
+    cmd("wget https://raw.githubusercontent.com/TIBTHINK/minecraft-server/main/restart-world.sh")
+    cmd("wget https://raw.githubusercontent.com/TIBTHINK/minecraft-server/main/start.sh")
+    cmd("wget https://raw.githubusercontent.com/TIBTHINK/minecraft-server/main/minecraft.service")
 
     open("./eula.txt", "w+").write("eula=true")
 
