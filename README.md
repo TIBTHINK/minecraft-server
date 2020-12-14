@@ -2,10 +2,9 @@
 
 ## Please note
 this was based on my servers configuration, most likely the minecraft.service file wont work unless you followed this guide.
+https://linuxize.com/post/how-to-install-minecraft-server-on-ubuntu-18-04/
 
 edit files like start to have the multi-threading correct for your specific system
-
-https://linuxize.com/post/how-to-install-minecraft-server-on-ubuntu-18-04/
 
 
 ## Getting started
@@ -13,7 +12,7 @@ you will need python3 for this script.
 all you need to start the script is.
 
 ```
-curl https://raw.githubusercontent.com/TIBTHINK/minecraft-server/main/init-server.py | bash
+wget https://raw.githubusercontent.com/TIBTHINK/minecraft-server/main/init-server.py && python3 init-server.py
 ```
 depending if you have the java runtime environment install you wont need sudo.
 
