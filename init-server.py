@@ -3,7 +3,6 @@
 import os
 from time import sleep
 from os import system as cmd
-import requests
 from subprocess import run
 
 pwd = os.getcwd()
