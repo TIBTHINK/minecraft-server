@@ -1,26 +1,16 @@
+from os import system as cmd
 import os
+#
+open("./makeMainWorld.py", "w+").write("""from os import system as cmd
+import os
+from os import system as cmd
+        
+if os.geteuid() != 0:
+    exit("please run me as root")
+else:
 
-pwd = os.getcwd()
-user = os.getlogin()
-
-
-open("./minecraft.service", "w+").write("""[Unit]
-Description=Minecraft Server
-After=network.target
-
-[Service]
-User=""" + user + """
-Nice=1
-KillMode=none
-SuccessExitStatus=0 1
-ProtectHome=true
-ProtectSystem=full
-PrivateDevices=true
-NoNewPrivileges=true
-WorkingDirectory=""" + pwd + """
-ExecStart=bash start.sh
-ExecStop=""" + pwd + """/tools/mcrcon/mcrcon -H 127.0.0.1 -P 25575 -p password stop
-ExecReload=""" + pwd + """/tools/mcron/mcron -H 127.0.0.1 -P 25575 -p password restart
-[Install]
-WantedBy=multi-user.target
+cmd("cp minecraft.service /etc/systemd/system/minecraft.service")
+cmd("systemctl daemon-reload")
+cmd("systemctl start minecraft.service")
+cmd("systemctl enable minecraft.service")
     """)

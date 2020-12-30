@@ -9,6 +9,22 @@ from subprocess import run
 pwd = os.getcwd()
 user = os.getlogin()
 
+def make_main_world():
+    open("./makeMainWorld.py", "w+").write("""from os import system as cmd
+    import os
+    from os import system as cmd
+            
+    if os.geteuid() != 0:
+        exit("please run me as root")
+    else:
+
+    cmd("cp minecraft.service /etc/systemd/system/minecraft.service")
+    cmd("systemctl daemon-reload")
+    cmd("systemctl start minecraft.service")
+    cmd("systemctl enable minecraft.service")
+        """)
+
+
 def service_file():
     open("./minecraft.service", "w+").write("""[Unit]
 Description=Minecraft Server
@@ -47,6 +63,7 @@ try:
     open("./eula.txt", "w+").write("eula=true")
     open("./start.sh", "w+").write("java -server -XX:+UseConcMarkSweepGC -XX:ParallelGCThreads=" + cpu_cores + " -XX:+AggressiveOpts -Xms256M -Xmx" + ram + "G -jar spigot-" + version + ".jar nogui ")
     service_file()
+    make_main_world()
     
     cmd("java -jar BuildTools.jar --rev " + version)
     cmd("bash start.sh")
