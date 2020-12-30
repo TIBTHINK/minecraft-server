@@ -57,8 +57,6 @@ try:
     url = 'https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar'
     buildtools_file= requests.get(url)
     open('./BuildTools.jar', 'wb').write(buildtools_file.content)
-    cmd("wget https://raw.githubusercontent.com/TIBTHINK/minecraft-server/main/makeMainWorld.py")
-    cmd("wget https://raw.githubusercontent.com/TIBTHINK/minecraft-server/main/restart-world.sh")
 
     open("./eula.txt", "w+").write("eula=true")
     open("./start.sh", "w+").write("java -server -XX:+UseConcMarkSweepGC -XX:ParallelGCThreads=" + cpu_cores + " -XX:+AggressiveOpts -Xms256M -Xmx" + ram + "G -jar spigot-" + version + ".jar nogui ")
