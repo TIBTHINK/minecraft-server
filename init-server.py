@@ -54,9 +54,7 @@ try:
     cpu_cores = input("how many cores does your cpu have(defult is 4): ") or "4"
 
     print("Downloading required files")
-    url = 'https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar'
-    buildtools_file= requests.get(url)
-    open('./BuildTools.jar', 'wb').write(buildtools_file.content)
+    cmd("wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar")
 
     open("./eula.txt", "w+").write("eula=true")
     open("./start.sh", "w+").write("java -server -XX:+UseConcMarkSweepGC -XX:ParallelGCThreads=" + cpu_cores + " -XX:+AggressiveOpts -Xms256M -Xmx" + ram + "G -jar spigot-" + version + ".jar nogui ")
