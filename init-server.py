@@ -69,7 +69,7 @@ try:
     
     cmd("java -jar BuildTools.jar --rev " + version)
 
-    start_server = input("Would you like to start the server after the build is done?[y/n]: ") or "n"
+    start_server = input("Would you like to start the server?[y/n]: ") or "n"
     if start_server == "y":
         cmd("bash start.sh")
     else:
