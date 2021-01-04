@@ -4,6 +4,7 @@ import os
 from time import sleep
 from os import system as cmd
 from subprocess import run
+import platform
 
 pwd = os.getcwd()
 user = os.getlogin()
@@ -48,6 +49,12 @@ WantedBy=multi-user.target
 
 
 try:
+    system = platform.system()
+    if system == "Windows":
+        exit("This script was Built for Linux, Windows support will be added in the future")
+
+
+
     version = input("What version of minecraft do you want? (defult is the lastest version): ") or "1.16.4"
     ram = input("how much ram would you like the server to use(defult is 2GB): ") or "2"
     cpu_cores = input("how many cores does your cpu have(defult is 4): ") or "4"
@@ -61,7 +68,12 @@ try:
     make_main_world()
     
     cmd("java -jar BuildTools.jar --rev " + version)
-    cmd("bash start.sh")
+
+    start_server = input("Would you like to start the server after the build is done?[y/n]: ") or "n"
+    if start_server == "y":
+        cmd("bash start.sh")
+    else:
+
     
 
 
