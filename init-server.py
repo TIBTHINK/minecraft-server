@@ -73,10 +73,6 @@ try:
     if start_server == "y":
         cmd("bash start.sh")
     else:
-
-    
-
-
-    print("\nCongrats, you have just installed Spigot. I recommend turning on mcrcon for easy terminal access.")
+        print("\nCongrats, you have just installed Spigot. I recommend turning on mcrcon for easy terminal access.")
 except KeyboardInterrupt:
     print("\n\nbye")
