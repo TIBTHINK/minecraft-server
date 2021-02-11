@@ -18,7 +18,7 @@ def make_main_world():
         exit("please run me as root")
     else:
     cmd("systemctl stop minecraft.service")
-    cmd("cp minecraft.service /etc/systemd/system/minecraft.service")
+    
     cmd("systemctl daemon-reload")
     cmd("systemctl start minecraft.service")
     cmd("systemctl enable minecraft.service")
@@ -55,7 +55,7 @@ try:
 
 
 
-    version = input("What version of minecraft do you want? (defult is the lastest version): ") or "1.16.4"
+    version = input("What version of minecraft do you want? (defult is the lastest version): ") or "1.16.54"
     ram = input("how much ram would you like the server to use(defult is 2GB): ") or "2"
     cpu_cores = input("how many cores does your cpu have(defult is 4): ") or "4"
 
@@ -66,10 +66,10 @@ try:
     open("./start.sh", "w+").write("java -server -XX:+UseConcMarkSweepGC -XX:ParallelGCThreads=" + cpu_cores + " -XX:+AggressiveOpts -Xms256M -Xmx" + ram + "G -jar spigot-" + version + ".jar nogui ")
     service_file()
     make_main_world()
-    
+                                                                                                                                        
     cmd("java -jar BuildTools.jar --rev " + version)
 
-    start_server = input("Would you like to start the server?[y/n]: ") or "n"
+    start_server = input("Would you like to start the server?[y/N]: ") or "n"
     if start_server == "y":
         cmd("bash start.sh")
     else:
