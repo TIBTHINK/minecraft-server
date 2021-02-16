@@ -1,3 +1,4 @@
+  
 #!/usr/bin/python3
 
 import os
@@ -8,7 +9,12 @@ import platform
 
 pwd = os.getcwd()
 user = os.getlogin()
-
+def update_server():
+    open("./update-server.sh", "w+").write("""
+    java -jar BuildTools.jar --rev latest
+    rm -rf ./plugins/Geyser-Spigot.jar
+    wget -P ./plugins/ https://ci.opencollab.dev//job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/spigot/target/Geyser-Spigot.jar 
+""")
 def make_main_world():
     open("./makeMainWorld.py", "w+").write("""from os import system as cmd
     import os
@@ -29,7 +35,6 @@ def service_file():
     open("./minecraft.service", "w+").write("""[Unit]
 Description=Minecraft Server
 After=network.target
-
 [Service]
 User=""" + user + """
 Nice=1
@@ -54,8 +59,7 @@ try:
         exit("This script was Built for Linux, Windows support will be added in the future")
 
 
-
-    version = input("What version of minecraft do you want? (defult is the lastest version): ") or "1.16.54"
+    version = input("What version of minecraft do you want? (defult is the lastest version): ") or "1.16.5"
     ram = input("how much ram would you like the server to use(defult is 2GB): ") or "2"
     cpu_cores = input("how many cores does your cpu have(defult is 4): ") or "4"
 
@@ -66,6 +70,7 @@ try:
     open("./start.sh", "w+").write("java -server -XX:+UseConcMarkSweepGC -XX:ParallelGCThreads=" + cpu_cores + " -XX:+AggressiveOpts -Xms256M -Xmx" + ram + "G -jar spigot-" + version + ".jar nogui ")
     service_file()
     make_main_world()
+    update_server()
                                                                                                                                         
     cmd("java -jar BuildTools.jar --rev " + version)
 
@@ -75,4 +80,4 @@ try:
     else:
         print("\nCongrats, you have just installed Spigot. I recommend turning on mcrcon for easy terminal access.")
 except KeyboardInterrupt:
-    print("\n\nbye")
+    print("\n\nbye") 
