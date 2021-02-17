@@ -19,4 +19,6 @@ Generates custom scripts for resetting and administrative commands made easy.
 ## Going to be added to the script
 
 install of mcron \
-detected if requirements are met
+detected if requirements are met \
+support on all linux based platforms (i.e arch centos) \
+support for windows standalone
