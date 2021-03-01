@@ -1,4 +1,3 @@
-  
 #!/usr/bin/python3
 
 import os
@@ -6,7 +5,16 @@ from time import sleep
 from os import system as cmd
 from subprocess import run
 import platform
+import requests
+import json
+import multiprocessing
 
+
+response = requests.get("https://launchermeta.mojang.com/mc/game/version_manifest.json")
+output = response.json()
+data = json.dumps(output['latest']['release'])
+core_count = str(multiprocessing.cpu_count())
+punctuation = '''"'''
 pwd = os.getcwd()
 user = os.getlogin()
 def update_server():
@@ -57,14 +65,26 @@ try:
     system = platform.system()
     if system == "Windows":
         exit("This script was Built for Linux, Windows support will be added in the future")
+       
+    response = requests.get("https://launchermeta.mojang.com/mc/game/version_manifest.json")
+    output = response.json()
+    data = json.dumps(output['latest']['release'])
+    string = data
+    remove_punct = ""
+    for character in data:
+        if character not in punctuation:
+            remove_punct = remove_punct + character
+    latest_release = remove_punct
 
-
-    version = input("What version of minecraft do you want? (defult is the lastest version): ") or "1.16.5"
-    ram = input("how much ram would you like the server to use(defult is 2GB): ") or "2"
-    cpu_cores = input("how many cores does your cpu have(defult is 4): ") or "4"
-
-    print("Downloading required files")
-    cmd("wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar")
+    core_count = str(multiprocessing.cpu_count())
+    version = input("What version of minecraft do you want? (Defult is the lastest version): ") or latest_release
+    ram = input("how much ram would you like the server to use (Defult is 2GB): ") or "2"
+    cpu_cores = input("how many cores does your cpu have (Defult is how many cores you have): ") or core_count
+    print("Checking if BuildTools in installed")
+    if not os.path.isfile("BuildTools.jar"):
+        print("Downloading required files")
+        myfile = requests.get("https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar")
+        open(pwd + "/BuildTools.jar", 'wb').write(myfile.content)
 
     open("./eula.txt", "w+").write("eula=true")
     open("./start.sh", "w+").write("java -server -XX:+UseConcMarkSweepGC -XX:ParallelGCThreads=" + cpu_cores + " -XX:+AggressiveOpts -Xms256M -Xmx" + ram + "G -jar spigot-" + version + ".jar nogui ")
@@ -81,3 +101,4 @@ try:
         print("\nCongrats, you have just installed Spigot. I recommend turning on mcrcon for easy terminal access.")
 except KeyboardInterrupt:
     print("\n\nbye") 
+ 
