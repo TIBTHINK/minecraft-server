@@ -14,7 +14,7 @@ Auto configures a service file for you to deploy and have minecraft run in the b
 Makes a run script for you to use. \
 Sets the ram to what you want to give them. \
 Auto accepts the EULA before boot. \
-Auto detect how many cores are in the system. \
+Auto detect how many cores are in the system. 
 
 
 ## Going to be added to the script
