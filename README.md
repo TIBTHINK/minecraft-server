@@ -12,9 +12,10 @@ sudo apt install git openjdk-8-jre-headless python3
 
 Auto configures a service file for you to deploy and have minecraft run in the background. \
 Makes a run script for you to use. \
-Sets the ram and the CPU cores to what you want to give them. \
+Sets the ram to what you want to give them. \
 Auto accepts the EULA before boot. \
-Generates custom scripts for resetting and administrative commands made easy.
+Auto detect how many cores are in the system. \
+
 
 ## Going to be added to the script
 
