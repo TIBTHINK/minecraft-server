@@ -45,12 +45,11 @@ def make_main_world():
         exit("please run me as root")
     else:
     cmd("systemctl stop minecraft.service")
-    
+    cmd("cp minecraft.service /etc/systemd/system/minecraft.service")
     cmd("systemctl daemon-reload")
     cmd("systemctl start minecraft.service")
     cmd("systemctl enable minecraft.service")
         """)
-
 
 def service_file():
     open("./minecraft.service", "w+").write("""[Unit]
@@ -73,7 +72,6 @@ ExecReload=""" + pwd + """/tools/mcron/mcron -H 127.0.0.1 -P 25575 -p password r
 WantedBy=multi-user.target
     """)
 
-
 try:
     version = input("What version of minecraft do you want? (Defult is the lastest version): ") or latest_release
     ram = input("how much ram would you like the server to use (Defult is 2048MB): ") or "2048"
@@ -86,17 +84,13 @@ try:
 
     open("./eula.txt", "w+").write("eula=true")
     open("./start."+ type_of_os + "", "w+").write("java -server -XX:+UseConcMarkSweepGC -XX:ParallelGCThreads=" + cpu_cores + " -XX:+AggressiveOpts -Xms256M -Xmx" + ram + "M -jar spigot-" + version + ".jar nogui ")
-    service_file()
-    make_main_world()
-    update_server()
-
     if type_of_os == "sh":
-         cmd(build_env +"> /dev/null")
+        service_file()
+        make_main_world()
+        update_server()
     else:
-        subprocess.call(build_env, stdout = subprocess.PIPE)
-        
-
-
+        update_server()
+    cmd(build_env)      
     start_server = input("Would you like to start the server?[y/N]: ") or "n"
     if start_server == "y":
         if type_of_os == "sh":
