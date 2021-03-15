@@ -7,8 +7,10 @@ import platform
 import requests
 import json
 import multiprocessing
-import argparse 
 
+response = requests.get("https://launchermeta.mojang.com/mc/game/version_manifest.json")
+output = response.json()
+data = json.dumps(output['latest']['release'])
 core_count = str(multiprocessing.cpu_count())
 punctuation = '''"'''
 pwd = os.getcwd()
@@ -70,7 +72,7 @@ WantedBy=multi-user.target
     """)
 
 try:
-    version = input("What version of minecraft do you want? (Defult is the lastest version): ") or latest_release
+    version = input("What version of minecraft do you want? (Latest version is: "+ latest_release +"): ") or latest_release
     ram = input("how much ram would you like the server to use (Defult is 2048MB): ") or "2048"
     cpu_cores = input("how many cores do you want to give to the server (Defult is how many cores you have): ") or core_count
     build_env = "java -jar BuildTools.jar --rev " + version 
