@@ -7,10 +7,10 @@ Ubuntu Based installs
 ``` bash
 sudo apt install git openjdk-8-jre-headless python3
 ```
-Arch Based installs
+<!-- Arch Based installs
 ```bash
 sudo pacman -Sy git jre8-openjdk-headless python3 gcc
-```
+``` -->
 
 ## what does this script do?
 
