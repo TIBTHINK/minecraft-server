@@ -8,23 +8,17 @@ import requests
 import json
 import multiprocessing
 import argparse
+import glob
 
-# Getting the files for removle when using -c
-files = ['minecraft.service', 'Bukkit', '.vscode', 'apache-maven-3.6.0', 'update-server.sh', 'CraftBukkit', 'makeMainWorld.py', 'Spigot', 'eula.txt', 'work', 'BuildTools.jar', 'BuildTools.log.txt', 'start.sh', 'spigot-1.16.5.jar', 'BuildData', 'README.md']
-def listToString(list):
-    str1 = " "
-    return (str1.join(list))
-files = listToString(files)
+
+pwd = os.getcwd()
 # Adding parser to program
 parser = argparse.ArgumentParser()
 parser.add_argument("-c", "--clean", help="Removes all files exept the init file",
                     action="store_true")
 args = parser.parse_args()
 if args.clean:
-    print("Removing files")
-    os.system("rm -rf " + files)
-    sleep(1)
-    print("done")
+    print("doesnt work rn lol")
 else:
 # The main meat of the script
     response = requests.get("https://launchermeta.mojang.com/mc/game/version_manifest.json")
@@ -91,6 +85,7 @@ else:
         version = input("What version of minecraft do you want? (Latest version is: "+ latest_release +"): ") or latest_release
         ram = input("How much ram would you like the server to use (Defult is 2048MB): ") or "2048"
         cpu_cores = input("How many cores do you want to give to the server (Defult is how many cores you have): ") or core_count
+        port = input("Which port do you want the server to be on (Defult is 25565): ") or "25565"
         if type_of_os == "sh":
             service_file_name = input("Name of the service file to be generated? (Defult is minecraft): ") or "minecraft"
         build_env = "java -jar BuildTools.jar --rev " + version 
@@ -101,6 +96,7 @@ else:
 
         open("./eula.txt", "w+").write("eula=true")
         open("./start."+ type_of_os + "", "w+").write("java -server -XX:+UseConcMarkSweepGC -XX:ParallelGCThreads=" + cpu_cores + " -XX:+AggressiveOpts -Xms256M -Xmx" + ram + "M -jar spigot-" + version + ".jar nogui ")
+        open("server.properties", "w+").write("query.port=" + port + "")
         if type_of_os == "sh":
             service_file()
             make_main_world()
