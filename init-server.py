@@ -96,7 +96,7 @@ else:
 
         open("./eula.txt", "w+").write("eula=true")
         open("./start."+ type_of_os + "", "w+").write("java -server -XX:+UseConcMarkSweepGC -XX:ParallelGCThreads=" + cpu_cores + " -XX:+AggressiveOpts -Xms256M -Xmx" + ram + "M -jar spigot-" + version + ".jar nogui ")
-        open("server.properties", "w+").write("query.port=" + port + "")
+        open("server.properties", "w+").write("server-port=" + port + "")
         if type_of_os == "sh":
             service_file()
             make_main_world()
