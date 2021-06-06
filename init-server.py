@@ -18,7 +18,8 @@ parser.add_argument("-c", "--clean", help="Removes all files exept the init file
                     action="store_true")
 args = parser.parse_args()
 if args.clean:
-    print("doesnt work rn lol")
+    print("work in proggress")
+
 else:
 # The main meat of the script
     response = requests.get("https://launchermeta.mojang.com/mc/game/version_manifest.json")
@@ -42,43 +43,43 @@ else:
 
     def update_server():
         open("./update-server." + type_of_os + "", "w+").write("""
-        java -jar BuildTools.jar --rev """ + version + """
+java -jar BuildTools.jar --rev """ + version + """
     """)
 
     def make_main_world():
         open("./makeMainWorld.py", "w+").write("""from os import system as cmd
-        import os
-        from os import system as cmd
+import os
+from os import system as cmd
                 
-        if os.geteuid() != 0:
-            exit("please run me as root")
-        else:
-        cmd("systemctl stop minecraft.service")
-        cmd("cp minecraft.service /etc/systemd/system/minecraft.service")
-        cmd("systemctl daemon-reload")
-        cmd("systemctl start minecraft.service")
-        cmd("systemctl enable minecraft.service")
+if os.geteuid() != 0:
+    exit("please run me as root")
+else:
+cmd("systemctl stop minecraft.service")
+cmd("cp minecraft.service /etc/systemd/system/minecraft.service")
+cmd("systemctl daemon-reload")
+cmd("systemctl start minecraft.service")
+cmd("systemctl enable minecraft.service")
             """)
 
     def service_file():
         open("./" + service_file_name + ".service", "w+").write("""[Unit]
-    Description=Minecraft Server
-    After=network.target
-    [Service]
-    User=""" + user + """
-    Nice=1
-    KillMode=none
-    SuccessExitStatus=0 1
-    ProtectHome=true
-    ProtectSystem=full
-    PrivateDevices=true
-    NoNewPrivileges=true
-    WorkingDirectory=""" + pwd + """
-    ExecStart=bash start.sh
-    ExecStop=""" + pwd + """/tools/mcrcon/mcrcon -H 127.0.0.1 -P 25575 -p password stop
-    ExecReload=""" + pwd + """/tools/mcron/mcron -H 127.0.0.1 -P 25575 -p password restart
-    [Install]
-    WantedBy=multi-user.target
+Description=Minecraft Server
+After=network.target
+[Service]
+User=""" + user + """
+Nice=1
+KillMode=none
+SuccessExitStatus=0 1
+ProtectHome=true
+ProtectSystem=full
+PrivateDevices=true
+NoNewPrivileges=true
+WorkingDirectory=""" + pwd + """
+ExecStart=bash start.sh
+ExecStop=""" + pwd + """/tools/mcrcon/mcrcon -H 127.0.0.1 -P 25575 -p password stop
+ExecReload=""" + pwd + """/tools/mcron/mcron -H 127.0.0.1 -P 25575 -p password restart
+[Install]
+WantedBy=multi-user.target
         """)
 
     try:
