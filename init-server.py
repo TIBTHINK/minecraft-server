@@ -41,6 +41,21 @@ else:
     else:
         type_of_os = "sh"
 
+    def mcron_setup():
+        import os
+        dir = "tools"
+        dir2 = "server"
+        parent_dir = "./"
+        mode = 0o777
+        path = os.path.join(parent_dir, dir)
+        path2 = os.path.join(parent_dir, dir2)
+        if not os.path.isdir(path + path2):
+            os.mkdir(path, mode)
+            os.mkdir(path2, mode)
+        else:  
+            exit
+
+
     def update_server():
         open("./update-server." + type_of_os + "", "w+").write("""
 java -jar BuildTools.jar --rev """ + version + """
