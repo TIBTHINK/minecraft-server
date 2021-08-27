@@ -27,7 +27,7 @@ else:
     data = json.dumps(output['latest']['release'])
     core_count = str(multiprocessing.cpu_count())
     pwd = os.getcwd()
-    user = os.getlogin()
+    # user = os.getlogin()
     
     
     core_count = str(multiprocessing.cpu_count())
@@ -39,7 +39,7 @@ else:
 
     def character_removement(string):
         punctuation = '''"'''
-        remove_punct = ""
+        remove_punct = """"""
         for character in data:
             if character not in punctuation:
                 remove_punct = remove_punct + character
