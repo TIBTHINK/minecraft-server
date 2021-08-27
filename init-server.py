@@ -26,20 +26,27 @@ else:
     output = response.json()
     data = json.dumps(output['latest']['release'])
     core_count = str(multiprocessing.cpu_count())
-    punctuation = '''"'''
     pwd = os.getcwd()
     user = os.getlogin()
-    remove_punct = ""
-    for character in data:
-        if character not in punctuation:
-            remove_punct = remove_punct + character
-    latest_release = remove_punct
+    
+    
     core_count = str(multiprocessing.cpu_count())
     system = platform.system()
     if system == "Windows":
         type_of_os = "bat"
     else:
         type_of_os = "sh"
+
+    def character_removement(string):
+        punctuation = '''"'''
+        remove_punct = ""
+        for character in data:
+            if character not in punctuation:
+                remove_punct = remove_punct + character
+                return(remove_punct)
+    
+    latest_release = character_removement(data)
+
 
     def mcron_setup():
         import os
@@ -107,7 +114,7 @@ WantedBy=multi-user.target
         build_env = "java -jar BuildTools.jar --rev " + version 
         print("Checking if BuildTools in installed")
         if not os.path.isfile("BuildTools.jar"):
-            print("Downloading required files")
+            print("###DOWNLOADING REQUIRED FILES###")
             open(pwd + "/BuildTools.jar", 'wb').write(requests.get("https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar").content)
 
         open("./eula.txt", "w+").write("eula=true")
