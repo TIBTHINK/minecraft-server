@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+
+# IMPORTS BABY
 import os
 from time import sleep
 from os import system as cmd
@@ -14,6 +16,12 @@ pwd = os.getcwd()
 # Adding parser to program
 parser = argparse.ArgumentParser()
 parser.add_argument("-c", "--clean", help="Removes all files exept the init file",
+                    action="store_true")
+parser.add_argument("-v", "--version", help="Set the version you want",
+                    action="store_true")
+parser.add_argument("-C", "--cores", help="Set how many cores you want the server to use",
+                    action="store_true")
+parser.add_argument("-m", "--memory", help="Set how much ram you want to allocate",
                     action="store_true")
 args = parser.parse_args()
 if args.clean:
@@ -60,6 +68,7 @@ else:
         cmd("git clone https://github.com/Tiiffi/mcrcon.git tools/mcrcon")
         cmd("cd tools/mcron")
         cmd("gcc -std=gnu11 -pedantic -Wall -Wextra -O2 -s -o mcrcon mcrcon.c")
+        cmd("cd " + pwd)
 
     def update_server():
         open("./update-server." + type_of_os + "", "w+").write("""java -jar BuildTools.jar --rev """ + version )
