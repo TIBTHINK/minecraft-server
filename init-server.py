@@ -8,7 +8,6 @@ import requests
 import json
 import multiprocessing
 import argparse
-import glob
 
 
 pwd = os.getcwd()
@@ -27,7 +26,7 @@ else:
     data = json.dumps(output['latest']['release'])
     core_count = str(multiprocessing.cpu_count())
     pwd = os.getcwd()
-    # user = os.getlogin()
+    user = os.getlogin()
     
     
     core_count = str(multiprocessing.cpu_count())
@@ -36,16 +35,13 @@ else:
         type_of_os = "bat"
     else:
         type_of_os = "sh"
-
-    def character_removement(string):
-        punctuation = '''"'''
-        remove_punct = """"""
-        for character in data:
-            if character not in punctuation:
-                remove_punct = remove_punct + character
-                return(remove_punct)
+    punctuation = '''"'''
+    remove_punct = """"""
+    for character in data:
+        if character not in punctuation:
+            remove_punct = remove_punct + character
     
-    latest_release = character_removement(data)
+    latest_release = remove_punct
 
 
     def mcron_setup():
