@@ -1,10 +1,21 @@
-import os
-import glob
+import argparse
 
-files = glob.glob('')
+parser = argparse.ArgumentParser(
+    description="command line interface of this script")
 
-for f in files:
-    try:
-        f.unlink()
-    except OSError as e:
-        print("Error: %s : %s" % (f, e.strerror))
+
+parser.add_argument("-c", "--clean", help="Removes all files exept the init file",
+                    action="store_true",)
+parser.add_argument("-v", "--version",
+                    help="Set the version you want",
+                    action="store_true",
+                    )
+parser.add_argument("-C", "--cores", help="Set how many cores you want the server to use",
+                    action="store_true",)
+parser.add_argument("-m", "--memory", help="Set how much ram you want to allocate",
+                    action="store_true",)
+
+args = parser.parse_args()
+
+if args.version:
+    
