@@ -11,7 +11,7 @@ import multiprocessing
 response = requests.get("https://launchermeta.mojang.com/mc/game/version_manifest.json")
 output = response.json()
 data = json.dumps(output['latest']['release'])
-core_count = str(multiprocessing.cpu_count())
+core_count = int(multiprocessing.cpu_count())
 pwd = os.getcwd()
 user = 'user'  #os.getlogin()
 
@@ -29,13 +29,15 @@ for character in data:
 latest_release = remove_punct
 
 @click.command()
-@click.option("--cores", default=core_count, prompt="How many cores do you want to give to the server: ", help="Set how many cores you want the server to use")
 @click.option("--version", default=latest_release, prompt="What version of minecraft do you want?: ", help="Choose what version of the game")
-@click.option("--ram", default=2048, prompt="How much ram would you like the server to use", help="test")
-def hello(cores, version):
-    """Simple program that greets NAME for a total of COUNT times."""
+@click.option("--cores", default=core_count, prompt="How many cores do you want to give to the server: ", help="Set how many cores you want the server to use")
+@click.option("--ram", default=2048, prompt="How much ram would you like the server to use", help="set how much allocated ram to the server")
+@click.option("--port", default=25565, prompt="Which port do you want the server to be on", help="set what port you want the server to run on")
+def hello(cores, version, ram, port): 
     print(cores)
     print(version)
+    print(ram)
+    print(port)
 
 if __name__ == '__main__':
     hello()
