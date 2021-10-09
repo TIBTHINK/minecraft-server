@@ -13,8 +13,7 @@ import sys
 
 pwd = os.getcwd()
 
-response = requests.get(
-    "https://launchermeta.mojang.com/mc/game/version_manifest.json")
+response = requests.get("https://launchermeta.mojang.com/mc/game/version_manifest.json")
 output = response.json()
 data = json.dumps(output['latest']['release'])
 core_count = str(multiprocessing.cpu_count())
