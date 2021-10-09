@@ -1,1 +1,0 @@
-java -server -XX:ParallelGCThreads=4 -Xms256M -Xmx2048M -jar spigot-1.17.1.jar nogui 
