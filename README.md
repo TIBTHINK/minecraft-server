@@ -23,8 +23,29 @@ Windows supported. [Beta] \
 Arch based OS supported. \
 Command line configuration 
 
+## Command line configuration
+you can easly find out the command line config by typing
+
+``` bash
+tibthink@JARVIS:~/minecraft-server$ python3 init-server.py --help
+Usage: init-server.py [OPTIONS]
+
+Options:
+  -v, --version TEXT  Choose what version of the game
+  -c, --cores TEXT    Set how many cores you want the server to use
+  -r, --ram INTEGER   set how much allocated ram to the server
+  -p, --port INTEGER  set what port you want the server to run on
+  -s, --service TEXT  Sets the service name
+  --help              Show this message and exit.
+```
+
+A example use would be:
+
+``` bash
+python3 init-server.py --version 1.17.1 --cores 3 --ram 1024 --port 4444 --service test
+```
+
 ## Going to be added to the script
 
 Install of mcron \
-Detect if requirements are met 
-
+Detect if requirements are met
