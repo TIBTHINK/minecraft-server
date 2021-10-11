@@ -48,4 +48,5 @@ python3 init-server.py --version 1.17.1 --cores 3 --ram 1024 --port 4444 --servi
 ## Going to be added to the script
 
 Install of mcron \
-Detect if requirements are met
+Detect if requirements are met \
+docker file/image
