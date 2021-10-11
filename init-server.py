@@ -165,14 +165,14 @@ else:
 
         cmd("java -jar BuildTools.jar --rev " + version)
         
-        if start_server == "y":
-            if type_of_os == "sh":
-                cmd("bash start.sh")
-            else:
-                cmd("start.bat")
-        else:
-            print("\nCongrats, you have just installed Spigot. I recommend turning on mcrcon for easy terminal access.")
-
+        # if start_server == "y":
+        #     if type_of_os == "sh":
+        #         cmd("bash start.sh")
+        #     else:
+        #         cmd("start.bat")
+        # else:
+        #     print("\nCongrats, you have just installed Spigot. I recommend turning on mcrcon for easy terminal access.")
+        print("You can start the server with ./start." + type_of_os)
 
     if __name__ == '__main__':
         main()
