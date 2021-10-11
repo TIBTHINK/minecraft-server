@@ -19,7 +19,7 @@ output = response.json()
 data = json.dumps(output['latest']['release'])
 core_count = str(multiprocessing.cpu_count())
 pwd = os.getcwd()
-user = 'user' #os.getlogin()
+user = os.getlogin()
 
 system = platform.system()
 if system == "Windows":
