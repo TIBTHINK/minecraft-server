@@ -33,7 +33,7 @@ latest_release = remove_punct
 @click.option("--cores", default=core_count, prompt="How many cores do you want to give to the server: ", help="Set how many cores you want the server to use")
 @click.option("--ram", default=2048, prompt="How much ram would you like the server to use", help="set how much allocated ram to the server")
 @click.option("--port", default=25565, prompt="Which port do you want the server to be on", help="set what port you want the server to run on")
-def hello(cores, version, ram, port): 
+def hello(cores, version, ram, port):   
     print(cores)
     print(version)
     print(ram)

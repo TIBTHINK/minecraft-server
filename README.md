@@ -20,11 +20,11 @@ Sets the ram to what you want to give them. \
 Auto accepts the EULA before boot. \
 Auto detect how many cores are in the system. \
 Windows supported. [Beta] \
-Arch based OS supported.
+Arch based OS supported. \
+Command line configuration 
 
 ## Going to be added to the script
 
 Install of mcron \
-Detected if requirements are met \
-Command line configureation 
+Detect if requirements are met 
 

@@ -38,66 +38,57 @@ latest_release = remove_punct
 
 
 
-# @click.command()
-# @click.option("--version", default=latest_release, prompt="What version of minecraft do you want?: ", help="Choose what version of the game")
-# @click.option("--cores", default=core_count, prompt="How many cores do you want to give to the server: ", help="Set how many cores you want the server to use")
-# @click.option("--ram", default=2048, prompt="How much ram would you like the server to use", help="set how much allocated ram to the server")
-# @click.option("--port", default=25565, prompt="Which port do you want the server to be on", help="set what port you want the server to run on")
-# @click.option("--service", default="minecraft", prompt="Name of the service file to be generated?:", help="Sets the service name")
 
-# def questions(version, cores, ram, port, service):
-#     version = version
-#     cores = cores
-#     ram = ram
-#     port = port
-#     service = service
-# questions()
 
 try:
 
 
     
-    def mcron_setup():
-        import os
-        dir = "tools"
-        dir2 = "server"
-        parent_dir = "./"
-        mode = 0o777
-        path = os.path.join(parent_dir, dir)
-        path2 = os.path.join(parent_dir, dir2)
-        if not os.path.isdir(path + path2):
-            os.mkdir(path, mode)
-            os.mkdir(path2, mode)
-        else:
-            return
-        cmd("git clone https://github.com/Tiiffi/mcrcon.git tools/mcrcon")
-        cmd("cd tools/mcron")
-        cmd("gcc -std=gnu11 -pedantic -Wall -Wextra -O2 -s -o mcrcon mcrcon.c")
-        cmd("cd " + pwd)
+    
 
 
-    def update_server():
-        open("./update-server." + type_of_os + "",
-            "w+").write("""java -jar BuildTools.jar --rev """ + version)
+#     def service_file():
+#         open("./" + service + ".service", "w+").write("""[Unit]
+# Description=Minecraft Server
+# After=network.target
+# [Service]
+# User=""" + user + """
+# Nice=1
+# KillMode=none
+# SuccessExitStatus=0 1
+# ProtectHome=true
+# ProtectSystem=full
+# PrivateDevices=true
+# NoNewPrivileges=true
+# WorkingDirectory=""" + pwd + """
+# ExecStart=bash start.sh
+# ExecStop=""" + pwd + """/tools/mcrcon/mcrcon -H 127.0.0.1 -P 25575 -p password stop
+# ExecReload=""" + pwd + """/tools/mcron/mcron -H 127.0.0.1 -P 25575 -p password restart
+# [Install]
+# WantedBy=multi-user.target
+#         """)
+
+    @click.command()
+    @click.option("-v", "--version", default=latest_release, prompt="What version of minecraft do you want?: ", help="Choose what version of the game")
+    @click.option("-c", "--cores", default=core_count, prompt="How many cores do you want to give to the server: ", help="Set how many cores you want the server to use")
+    @click.option("-r", "--ram", default=2048, prompt="How much ram would you like the server to use", help="set how much allocated ram to the server")
+    @click.option("-p", "--port", default=25565, prompt="Which port do you want the server to be on", help="set what port you want the server to run on")
+    @click.option("-s", "--service", default="minecraft", prompt="Name of the service file to be generated?:", help="Sets the service name")
+    
 
 
-    def make_main_world():
-        open("./makeMainWorld.py", "w+").write("""from os import system as cmd
-import os
-from os import system as cmd
-if os.geteuid() != 0:
-    exit("please run me as root")
-else:
-    cmd("systemctl stop minecraft.service")
-    cmd("cp minecraft.service /etc/systemd/system/minecraft.service")
-    cmd("systemctl daemon-reload")
-    cmd("systemctl start minecraft.service")
-    cmd("systemctl enable minecraft.service")
-            """)
+    def main(version, cores, ram, port, service):
+        version = version
+        cores = cores
+        ram = ram
+        port = port
+        service = service
+    
 
 
-    def service_file():
-        open("./" + service + ".service", "w+").write("""[Unit]
+
+        def service_file():
+            open("./" + service + ".service", "w+").write("""[Unit]
 Description=Minecraft Server
 After=network.target
 [Service]
@@ -115,22 +106,45 @@ ExecStop=""" + pwd + """/tools/mcrcon/mcrcon -H 127.0.0.1 -P 25575 -p password s
 ExecReload=""" + pwd + """/tools/mcron/mcron -H 127.0.0.1 -P 25575 -p password restart
 [Install]
 WantedBy=multi-user.target
-        """)
+            """)
+        def mcron_setup():
+            import os
+            dir = "tools"
+            dir2 = "server"
+            parent_dir = "./"
+            mode = 0o777
+            path = os.path.join(parent_dir, dir)
+            path2 = os.path.join(parent_dir, dir2)
+            if not os.path.isdir(path + path2):
+                os.mkdir(path, mode)
+                os.mkdir(path2, mode)
+            else:
+                return
+            cmd("git clone https://github.com/Tiiffi/mcrcon.git tools/mcrcon")
+            cmd("cd tools/mcron")
+            cmd("gcc -std=gnu11 -pedantic -Wall -Wextra -O2 -s -o mcrcon mcrcon.c")
+            cmd("cd " + pwd)
 
-    @click.command()
-    @click.option("-v", "--version", default=latest_release, prompt="What version of minecraft do you want?: ", help="Choose what version of the game")
-    @click.option("-c", "--cores", default=core_count, prompt="How many cores do you want to give to the server: ", help="Set how many cores you want the server to use")
-    @click.option("-r", "--ram", default=2048, prompt="How much ram would you like the server to use", help="set how much allocated ram to the server")
-    @click.option("-p", "--port", default=25565, prompt="Which port do you want the server to be on", help="set what port you want the server to run on")
-    @click.option("-s", "--service", default="minecraft", prompt="Name of the service file to be generated?:", help="Sets the service name")
 
-    def main(version, cores, ram, port, service):
-        version = version
-        cores = cores
-        ram = ram
-        port = port
-        service = service
-    
+        def update_server():
+            open("./update-server." + type_of_os + "",
+                "w+").write("""java -jar BuildTools.jar --rev """ + version)
+
+
+        def make_main_world():
+            open("./makeMainWorld.py", "w+").write("""from os import system as cmd
+import os
+from os import system as cmd
+if os.geteuid() != 0:
+    exit("please run me as root")
+else:
+    cmd("systemctl stop minecraft.service")
+    cmd("cp minecraft.service /etc/systemd/system/minecraft.service")
+    cmd("systemctl daemon-reload")
+    cmd("systemctl start minecraft.service")
+    cmd("systemctl enable minecraft.service")
+                """)
+
 
         print("Checking if BuildTools in installed")
         if not os.path.isfile("BuildTools.jar"):
@@ -150,7 +164,7 @@ WantedBy=multi-user.target
             update_server()
 
         cmd("java -jar BuildTools.jar --rev " + version)
-        start_server = input("Would you like to start the server?[y/N]: ") or "n"
+        
         if start_server == "y":
             if type_of_os == "sh":
                 cmd("bash start.sh")
