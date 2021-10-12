@@ -19,7 +19,12 @@ output = response.json()
 data = json.dumps(output['latest']['release'])
 core_count = str(multiprocessing.cpu_count())
 pwd = os.getcwd()
-user = os.getlogin()
+SECRET_KEY = os.environ.get('AM_I_IN_A_DOCKER_CONTAINER', False)
+
+if SECRET_KEY:
+    user = 'minecraft'
+else:
+    user = os.getlogin()
 
 system = platform.system()
 if system == "Windows":
