@@ -1,2 +1,2 @@
-docker rmi test
-docker build -t test .
+docker rmi minecraft-test
+docker build -t minecraft-test .

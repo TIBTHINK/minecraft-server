@@ -122,7 +122,7 @@ else:
         print("Checking if BuildTools in installed")
         if not os.path.isfile("BuildTools.jar"):
             print("###DOWNLOADING REQUIRED FILES###")
-            open(pwd + "/BuildTools.jar", 'wb').write(requests.get("https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar").content)
+            open(pwd + "./BuildTools.jar", 'wb').write(requests.get("https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar").content)
 
         open("./eula.txt", "w+").write("eula=true")
         open("./start." + type_of_os + "", "w+").write("java -server -XX:ParallelGCThreads=" + cores + " -Xms256M -Xmx" + str(ram) + "M -jar" "spigot-" + version + ".jar nogui ")
