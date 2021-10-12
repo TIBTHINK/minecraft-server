@@ -80,23 +80,23 @@ ExecReload=""" + pwd + """/tools/mcron/mcron -H 127.0.0.1 -P 25575 -p password r
 [Install]
 WantedBy=multi-user.target
             """)
-        def mcron_setup():
-            import os
-            dir = "tools"
-            dir2 = "server"
-            parent_dir = "./"
-            mode = 0o777
-            path = os.path.join(parent_dir, dir)
-            path2 = os.path.join(parent_dir, dir2)
-            if not os.path.isdir(path + path2):
-                os.mkdir(path, mode)
-                os.mkdir(path2, mode)
-            else:
-                return
-            cmd("git clone https://github.com/Tiiffi/mcrcon.git tools/mcrcon")
-            cmd("cd tools/mcron")
-            cmd("gcc -std=gnu11 -pedantic -Wall -Wextra -O2 -s -o mcrcon mcrcon.c")
-            cmd("cd " + pwd)
+        # def mcron_setup():
+        #     import os
+        #     dir = "tools"
+        #     dir2 = "server"
+        #     parent_dir = "./"
+        #     mode = 0o777
+        #     path = os.path.join(parent_dir, dir)
+        #     path2 = os.path.join(parent_dir, dir2)
+        #     if not os.path.isdir(path + path2):
+        #         os.mkdir(path, mode)
+        #         os.mkdir(path2, mode)
+        #     else:
+        #         return
+        #     cmd("git clone https://github.com/Tiiffi/mcrcon.git tools/mcrcon")
+        #     cmd("cd tools/mcron")
+        #     cmd("gcc -std=gnu11 -pedantic -Wall -Wextra -O2 -s -o mcrcon mcrcon.c")
+        #     cmd("cd " + pwd)
 
 
         def update_server():
@@ -132,7 +132,7 @@ else:
             make_main_world()
             update_server()
             print("seting up mcron")
-            mcron_setup()
+            # mcron_setup()
         else:
             update_server()
 
