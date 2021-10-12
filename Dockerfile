@@ -16,7 +16,7 @@ RUN git clone https://github.com/tibthink/minecraft-server
 WORKDIR ./minecraft-server
 RUN pip3 install click requests
 RUN python3 init-server.py -v ${VERISON} -c ${CORES} -r ${RAM} -p ${PORT} -s ${SERVICE}
-CMD java -server -XX:ParallelGCThreads=${CORES} -Xms256M -Xmx${RAM}M -jar ./spigot-${VERISON}.jar nogui 
+CMD java -server -XX:ParallelGCThreads=${CORES} -Xms256M -Xmx${RAM}M -jar spigot-${VERISON}.jar nogui 
 
 # RUN bash start.sh
 
