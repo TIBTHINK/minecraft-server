@@ -39,40 +39,8 @@ for character in data:
 
 latest_release = remove_punct
 
-
-
-
-
-
-
 try:
-
-
-    
-    
-
-
-#     def service_file():
-#         open("./" + service + ".service", "w+").write("""[Unit]
-# Description=Minecraft Server
-# After=network.target
-# [Service]
-# User=""" + user + """
-# Nice=1
-# KillMode=none
-# SuccessExitStatus=0 1
-# ProtectHome=true
-# ProtectSystem=full
-# PrivateDevices=true
-# NoNewPrivileges=true
-# WorkingDirectory=""" + pwd + """
-# ExecStart=bash start.sh
-# ExecStop=""" + pwd + """/tools/mcrcon/mcrcon -H 127.0.0.1 -P 25575 -p password stop
-# ExecReload=""" + pwd + """/tools/mcron/mcron -H 127.0.0.1 -P 25575 -p password restart
-# [Install]
-# WantedBy=multi-user.target
-#         """)
-
+  
     @click.command()
     @click.option("-v", "--version", default=latest_release, prompt="What version of minecraft do you want?: ", help="Choose what version of the game")
     @click.option("-c", "--cores", default=core_count, prompt="How many cores do you want to give to the server: ", help="Set how many cores you want the server to use")
@@ -157,7 +125,7 @@ else:
             open(pwd + "/BuildTools.jar", 'wb').write(requests.get("https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar").content)
 
         open("./eula.txt", "w+").write("eula=true")
-        open("./start." + type_of_os + "", "w+").write("java -server -XX:ParallelGCThreads=" + cores + " -Xms256M -Xmx" + str(ram) + "M -jar ""spigot-""" + version + """.jar nogui ")
+        open("./start." + type_of_os + "", "w+").write("java -server -XX:ParallelGCThreads=" + cores + " -Xms256M -Xmx" + str(ram) + "M -jar" "spigot-" + version + ".jar nogui ")
         open("server.properties", "w+").write("server-port=" + str(port) + "")
         if type_of_os == "sh":
             service_file()
@@ -184,4 +152,4 @@ else:
     
 
 except KeyboardInterrupt:
-    print("\n\nbye")
+    print("\nbye")
