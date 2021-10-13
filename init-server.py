@@ -74,7 +74,7 @@ ProtectSystem=full
 PrivateDevices=true
 NoNewPrivileges=true
 WorkingDirectory=""" + pwd + """
-ExecStart=/usr/bin/bash start.sh
+ExecStart= /usr/bin/bash """ + pwd +"""start.sh
 ExecStop=""" + pwd + """/mcrcon/mcrcon -H 127.0.0.1 -P 25575 -p password stop
 ExecReload=""" + pwd + """/mcron/mcron -H 127.0.0.1 -P 25575 -p password restart
 [Install]
