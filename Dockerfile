@@ -6,12 +6,15 @@ ENV RAM=2048
 ENV PORT=25565
 ENV SERVICE=minecraft
 ENV HOME=/config
+ENV TZ=America/New_York
+# DONT TOUCH THIS ONE\/
 ENV AM_I_IN_A_DOCKER_CONTAINER Yes
-MAINTAINER Tibthink version: 1.0
 
 WORKDIR /config
+
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt update 
-RUN apt install git openjdk-8-jre-headless python3 python3-pip sudo -y
+RUN apt install git openjdk-11-jre-headless python3 python3-pip -y
 RUN git clone https://github.com/tibthink/minecraft-server 
 WORKDIR /config/minecraft-server
 RUN pip3 install click requests
