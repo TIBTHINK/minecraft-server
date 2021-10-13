@@ -131,13 +131,13 @@ else:
             service_file()
             make_main_world()
             update_server()
-            print("seting up mcron")
-            cmd("java -jar /BuildTools.jar --rev " + version)
+            
+            cmd("java -jar BuildTools.jar --rev " + version)
 
             # mcron_setup()
         else:
             update_server()
-            cmd("java -jar /BuildTools.jar --rev " + version)
+            cmd("java -jar BuildTools.jar --rev " + version)
 
 
         if SECRET_KEY:
