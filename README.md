@@ -44,6 +44,23 @@ A example use would be:
 ``` bash
 python3 init-server.py --version 1.17.1 --cores 3 --ram 1024 --port 4444 --service test
 ```
+## Docker
+
+as of right now docker isnt working, but i am working on it
+a example docker command would look like:
+``` bash
+docker run -d \
+  --name=minecraft-server \
+  -e VERSION= 1.16.1
+  -e CORES=4
+  -e RAM=2048
+  -e SERVICE=minecraft
+  -e TZ=America/New_York
+  -p 25565:25565 \
+  -v /path/to/appdata/config:/config \
+  --restart unless-stopped \
+  docker.io/tibthink/minecraft-server
+```
 
 ## Going to be added to the script
 

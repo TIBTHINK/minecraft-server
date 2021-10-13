@@ -1,6 +1,6 @@
 FROM ubuntu
 
-ENV VERISON=1.17.1
+ENV VERISON=1.16.1
 ENV CORES=4
 ENV RAM=2048
 ENV PORT=25565
@@ -23,10 +23,13 @@ WORKDIR /config/minecraft-server
 RUN git pull
 RUN pip3 install click requests
 RUN python3 init-server.py -v ${VERISON} -c ${CORES} -r ${RAM} -p ${PORT} -s ${SERVICE}
-RUN cp minecraft.service /etc/systemd/system/minecraft.service
-RUN systemctl daemon-reload
-RUN systemctl start minecraft.service
-RUN systemctl enable minecraft.service
+CMD nohup bash start.sh &
+
+
+# RUN cp minecraft.service /etc/systemd/system/minecraft.service
+# RUN systemctl daemon-reload
+# RUN systemctl start minecraft.service
+# RUN systemctl enable minecraft.service
 # CMD java -server -XX:ParallelGCThreads=${CORES} -Xms256M -Xmx${RAM}M -jar /config/minecraft-server/spigot-${VERISON}.jar nogui 
 
 # RUN bash start.sh
