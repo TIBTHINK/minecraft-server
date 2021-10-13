@@ -145,13 +145,13 @@ else:
         else:
             start_server = input("Would you like to start the server? [y/N]") or "n"
         
-        if start_server == "y":
-            if type_of_os == "sh":
-                cmd("bash start.sh")
-            else:
-                cmd("start.bat")
-        else:
-            print("You can start the server with ./start." + type_of_os)
+        # if start_server == "y":
+        #     if type_of_os == "sh":
+        #         cmd("bash start.sh")
+        #     else:
+        #         cmd("start.bat")
+        # else:
+        #     print("You can start the server with ./start." + type_of_os)
 
 
     if __name__ == '__main__':
