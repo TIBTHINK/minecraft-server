@@ -125,7 +125,7 @@ else:
             open(pwd + "./BuildTools.jar", 'wb').write(requests.get("https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar").content)
 
         open("./eula.txt", "w+").write("eula=true")
-        open("./start." + type_of_os + "", "w+").write("java -server -XX:ParallelGCThreads=" + cores + " -Xms256M -Xmx" + str(ram) + "M -jar" "spigot-" + version + ".jar nogui ")
+        open("./start." + type_of_os + "", "w+").write("java -server -XX:ParallelGCThreads=" + cores + " -Xms256M -Xmx" + str(ram) + "M -jar " "spigot-" + version + ".jar nogui ")
         open("server.properties", "w+").write("server-port=" + str(port) + "")
         if type_of_os == "sh":
             service_file()
@@ -137,15 +137,20 @@ else:
             update_server()
 
         cmd("java -jar BuildTools.jar --rev " + version)
+
+        if SECRET_KEY:
+            start_server = "y"
+        else:
+            start_server = input("Would you like to start the server? [y/N]") or "n"
         
-        # if start_server == "y":
-        #     if type_of_os == "sh":
-        #         cmd("bash start.sh")
-        #     else:
-        #         cmd("start.bat")
-        # else:
-        #     print("\nCongrats, you have just installed Spigot. I recommend turning on mcrcon for easy terminal access.")
-        print("You can start the server with ./start." + type_of_os)
+        if start_server == "y":
+            if type_of_os == "sh":
+                cmd("bash start.sh")
+            else:
+                cmd("start.bat")
+        else:
+            print("You can start the server with ./start." + type_of_os)
+
 
     if __name__ == '__main__':
         main()
