@@ -141,7 +141,7 @@ else:
 
 
         if SECRET_KEY:
-            start_server = "y"
+            start_server = "n"
         else:
             start_server = input("Would you like to start the server? [y/N]") or "n"
         

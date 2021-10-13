@@ -14,11 +14,19 @@ WORKDIR /config
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt update 
-RUN apt install git openjdk-11-jre-headless python3 python3-pip -y
+RUN apt install git openjdk-16-jre-headless openjdk-8-jre-headless python3 python3-pip gcc -y
 RUN git clone https://github.com/tibthink/minecraft-server 
+RUN git clone https://github.com/Tiiffi/mcrcon.git tools/mcrcon
+WORKDIR /config/tools/mcron
+CMD gcc -std=gnu11 -pedantic -Wall -Wextra -O2 -s -o mcrcon mcrcon.c
 WORKDIR /config/minecraft-server
+RUN git pull
 RUN pip3 install click requests
-# RUN python3 init-server.py -v ${VERISON} -c ${CORES} -r ${RAM} -p ${PORT} -s ${SERVICE}
+RUN python3 init-server.py -v ${VERISON} -c ${CORES} -r ${RAM} -p ${PORT} -s ${SERVICE}
+RUN cp minecraft.service /etc/systemd/system/minecraft.service
+RUN systemctl daemon-reload
+RUN systemctl start minecraft.service
+RUN systemctl enable minecraft.service
 # CMD java -server -XX:ParallelGCThreads=${CORES} -Xms256M -Xmx${RAM}M -jar /config/minecraft-server/spigot-${VERISON}.jar nogui 
 
 # RUN bash start.sh
