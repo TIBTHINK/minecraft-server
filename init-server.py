@@ -75,8 +75,8 @@ PrivateDevices=true
 NoNewPrivileges=true
 WorkingDirectory=""" + pwd + """
 ExecStart=bash start.sh
-ExecStop=""" + pwd + """/tools/mcrcon/mcrcon -H 127.0.0.1 -P 25575 -p password stop
-ExecReload=""" + pwd + """/tools/mcron/mcron -H 127.0.0.1 -P 25575 -p password restart
+ExecStop=""" + pwd + """/mcrcon/mcrcon -H 127.0.0.1 -P 25575 -p password stop
+ExecReload=""" + pwd + """/mcron/mcron -H 127.0.0.1 -P 25575 -p password restart
 [Install]
 WantedBy=multi-user.target
             """)

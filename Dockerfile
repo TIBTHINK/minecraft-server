@@ -14,10 +14,10 @@ WORKDIR /config
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt update 
-RUN apt install git openjdk-16-jre-headless openjdk-8-jre-headless python3 python3-pip gcc -y
+RUN apt install git openjdk-16-jre-headless openjdk-8-jre-headless python3 python3-pip gcc systemctl -y
 RUN git clone https://github.com/tibthink/minecraft-server 
-RUN git clone https://github.com/Tiiffi/mcrcon.git tools/mcrcon
-WORKDIR /config/tools/mcron
+RUN git clone https://github.com/Tiiffi/mcrcon.git minecraft-server/mcrcon
+WORKDIR /config/minecraft-server/mcron
 CMD gcc -std=gnu11 -pedantic -Wall -Wextra -O2 -s -o mcrcon mcrcon.c
 WORKDIR /config/minecraft-server
 RUN git pull
