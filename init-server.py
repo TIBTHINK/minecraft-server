@@ -140,10 +140,10 @@ else:
             cmd("java -jar BuildTools.jar --rev " + version)
 
 
-        if SECRET_KEY:
-            start_server = "n"
-        else:
-            start_server = input("Would you like to start the server? [y/N]") or "n"
+        # if SECRET_KEY:
+        #     start_server = "n"
+        # else:
+        #     start_server = input("Would you like to start the server? [y/N]") or "n"
         
         # if start_server == "y":
         #     if type_of_os == "sh":
