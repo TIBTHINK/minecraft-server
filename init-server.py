@@ -75,8 +75,8 @@ PrivateDevices=true
 NoNewPrivileges=true
 WorkingDirectory=""" + pwd + """
 ExecStart= /usr/bin/bash """ + pwd +"""start.sh
-ExecStop=/usr/local/mcrcon -H 127.0.0.1 -P 25575 -p password stop
-ExecReload=/usr/local/mcrcon -H 127.0.0.1 -P 25575 -p password restart
+ExecStop=/usr/local/bin/mcrcon -H 127.0.0.1 -P 25575 -p password stop
+ExecReload=/usr/local/bin/mcrcon -H 127.0.0.1 -P 25575 -p password restart
 [Install]
 WantedBy=multi-user.target
             """)

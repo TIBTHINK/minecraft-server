@@ -20,6 +20,7 @@ RUN git clone https://github.com/Tiiffi/mcrcon.git minecraft-server/mcrcon
 WORKDIR /config/minecraft-server/mcrcon
 RUN make
 RUN make install
+RUN which mcrcon
 WORKDIR /config/minecraft-server
 RUN git pull
 RUN pip3 install click requests
