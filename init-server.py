@@ -80,13 +80,13 @@ ExecReload=/usr/local/bin/mcrcon -H 127.0.0.1 -P 25575 -p password restart
 [Install]
 WantedBy=multi-user.target
             """)
-        def mcron_setup():
+        # def mcron_setup():
 
-            cmd("git clone https://github.com/Tiiffi/mcrcon.git mcrcon")
-            cmd("cd mcron")
-            cmd("make")
-            cmd("sudo make install")
-            cmd("cd " + pwd)
+        #     cmd("git clone https://github.com/Tiiffi/mcrcon.git mcrcon")
+        #     cmd("cd mcron")
+        #     cmd("make")
+        #     cmd("sudo make install")
+        #     cmd("cd " + pwd)
 
 
         def update_server():
@@ -125,7 +125,7 @@ else:
             if SECRET_KEY:
                 print("")
             else:
-                mcron_setup()
+                # mcron_setup()
             
 
         else:
