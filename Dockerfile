@@ -13,10 +13,9 @@ ARG CACHEBUST=1
 ENV AM_I_IN_A_DOCKER_CONTAINER Yes
 
 WORKDIR /config
-
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt update 
-RUN apt install git openjdk-16-jre-headless openjdk-8-jre-headless python3 python3-pip gcc systemctl wget -y
+RUN apt install git openjdk-8-jre-headless openjdk-8-jre-headless python3 python3-pip gcc systemctl wget -y
 RUN git clone https://github.com/tibthink/minecraft-server 
 RUN git clone https://github.com/Tiiffi/mcrcon 
 WORKDIR /config/mcrcon
@@ -32,14 +31,5 @@ RUN cp minecraft.service /etc/systemd/system/minecraft.service
 RUN systemctl daemon-reload
 CMD systemctl start minecraft.service
 RUN systemctl enable minecraft.service
-
-
-# RUN cp minecraft.service /etc/systemd/system/minecraft.service
-# RUN systemctl daemon-reload
-# RUN systemctl start minecraft.service
-# RUN systemctl enable minecraft.service
-# CMD java -server -XX:ParallelGCThreads=${CORES} -Xms256M -Xmx${RAM}M -jar /config/minecraft-server/spigot-${VERISON}.jar nogui 
-
-# RUN bash start.sh
 
 EXPOSE ${PORT}
