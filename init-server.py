@@ -122,10 +122,10 @@ else:
             make_main_world()
             update_server()         
             cmd("java -jar BuildTools.jar --rev " + version)
-            if SECRET_KEY:
-                print("")
-            else:
-                # mcron_setup()
+            # if SECRET_KEY:
+            #     print("")
+            # else:
+            #     # mcron_setup()
             
 
         else:

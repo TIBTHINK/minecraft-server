@@ -16,10 +16,10 @@ WORKDIR /config
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt update 
-RUN apt install git openjdk-16-jre-headless openjdk-8-jre-headless python3 python3-pip gcc systemctl -y
+RUN apt install git openjdk-16-jre-headless openjdk-8-jre-headless python3 python3-pip gcc systemctl wget -y
 RUN git clone https://github.com/tibthink/minecraft-server 
 RUN wget https://github.com/Tiiffi/mcrcon/releases/download/v0.7.1/mcrcon-0.7.1-linux-x86-32.tar.gz
-RUN tar -xfv mcrcon-0.7.1-linux-x86-32.tar.gz mcrcon -C /usr/local/bin/mcrcon
+RUN tar -xf mcrcon-0.7.1-linux-x86-32.tar.gz mcrcon-0.7.1-linux-x86-32/mcrcon -C /usr/local/bin/mcrcon
 
 WORKDIR /config/minecraft-server
 RUN git pull
