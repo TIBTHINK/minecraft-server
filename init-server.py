@@ -82,8 +82,8 @@ WantedBy=multi-user.target
             """)
         def mcron_setup():
 
-            cmd("git clone https://github.com/Tiiffi/mcrcon.git minecraft-server/mcrcon")
-            cmd("cd minecraft-server/mcron")
+            cmd("git clone https://github.com/Tiiffi/mcrcon.git mcrcon")
+            cmd("cd mcron")
             cmd("make")
             cmd("sudo make install")
             cmd("cd " + pwd)
