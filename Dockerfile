@@ -17,13 +17,18 @@ RUN apt update
 RUN apt install git openjdk-16-jre-headless openjdk-8-jre-headless python3 python3-pip gcc systemctl -y
 RUN git clone https://github.com/tibthink/minecraft-server 
 RUN git clone https://github.com/Tiiffi/mcrcon.git minecraft-server/mcrcon
-WORKDIR /config/minecraft-server/mcron
-CMD gcc -std=gnu11 -pedantic -Wall -Wextra -O2 -s -o mcrcon mcrcon.c
+WORKDIR /config/minecraft-server/mcrcon
+
+
+RUN make
 WORKDIR /config/minecraft-server
 RUN git pull
 RUN pip3 install click requests
 RUN python3 init-server.py -v ${VERISON} -c ${CORES} -r ${RAM} -p ${PORT} -s ${SERVICE}
-CMD nohup bash start.sh &
+RUN cp minecraft.service /etc/systemd/system/minecraft.service
+RUN systemctl daemon-reload
+RUN systemctl start minecraft.service
+RUN systemctl enable minecraft.service
 
 
 # RUN cp minecraft.service /etc/systemd/system/minecraft.service

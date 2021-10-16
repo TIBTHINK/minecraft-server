@@ -76,7 +76,7 @@ NoNewPrivileges=true
 WorkingDirectory=""" + pwd + """
 ExecStart= /usr/bin/bash """ + pwd +"""start.sh
 ExecStop=""" + pwd + """/mcrcon/mcrcon -H 127.0.0.1 -P 25575 -p password stop
-ExecReload=""" + pwd + """/mcron/mcron -H 127.0.0.1 -P 25575 -p password restart
+ExecReload=""" + pwd + """/mcrcon/mcrcon -H 127.0.0.1 -P 25575 -p password restart
 [Install]
 WantedBy=multi-user.target
             """)
@@ -140,18 +140,18 @@ else:
             cmd("java -jar BuildTools.jar --rev " + version)
 
 
-        # if SECRET_KEY:
-        #     start_server = "n"
-        # else:
-        #     start_server = input("Would you like to start the server? [y/N]") or "n"
+        if SECRET_KEY:
+            start_server = "n"
+        else:
+            start_server = input("Would you like to start the server? [y/N]") or "n"
         
-        # if start_server == "y":
-        #     if type_of_os == "sh":
-        #         cmd("bash start.sh")
-        #     else:
-        #         cmd("start.bat")
-        # else:
-        #     print("You can start the server with ./start." + type_of_os)
+        if start_server == "y":
+            if type_of_os == "sh":
+                cmd("bash start.sh")
+            else:
+                cmd("start.bat")
+        else:
+            print("You can start the server with ./start." + type_of_os)
 
 
     if __name__ == '__main__':
