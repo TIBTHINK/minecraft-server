@@ -122,7 +122,7 @@ else:
             make_main_world()
             update_server()         
             cmd("java -jar BuildTools.jar --rev " + version)
-            if AM_I_IN_A_DOCKER_CONTAINER:
+            if SECRET_KEY:
                 mcron_setup()
 
         else:

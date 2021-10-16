@@ -46,7 +46,7 @@ python3 init-server.py --version 1.17.1 --cores 3 --ram 1024 --port 4444 --servi
 ```
 ## Docker
 
-as of right now docker isnt working, but i am working on it
+as of right now docker isnt working, but i am working on it. \
 a example docker command would look like:
 ``` bash
 docker run -d \
