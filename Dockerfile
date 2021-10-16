@@ -18,9 +18,8 @@ RUN apt install git openjdk-16-jre-headless openjdk-8-jre-headless python3 pytho
 RUN git clone https://github.com/tibthink/minecraft-server 
 RUN git clone https://github.com/Tiiffi/mcrcon.git minecraft-server/mcrcon
 WORKDIR /config/minecraft-server/mcrcon
-
-
 RUN make
+RUN make install
 WORKDIR /config/minecraft-server
 RUN git pull
 RUN pip3 install click requests

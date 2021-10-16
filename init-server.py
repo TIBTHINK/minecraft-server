@@ -75,28 +75,18 @@ PrivateDevices=true
 NoNewPrivileges=true
 WorkingDirectory=""" + pwd + """
 ExecStart= /usr/bin/bash """ + pwd +"""start.sh
-ExecStop=""" + pwd + """/mcrcon/mcrcon -H 127.0.0.1 -P 25575 -p password stop
-ExecReload=""" + pwd + """/mcrcon/mcrcon -H 127.0.0.1 -P 25575 -p password restart
+ExecStop=/usr/local/mcrcon -H 127.0.0.1 -P 25575 -p password stop
+ExecReload=/usr/local/mcrcon -H 127.0.0.1 -P 25575 -p password restart
 [Install]
 WantedBy=multi-user.target
             """)
-        # def mcron_setup():
-        #     import os
-        #     dir = "tools"
-        #     dir2 = "server"
-        #     parent_dir = "./"
-        #     mode = 0o777
-        #     path = os.path.join(parent_dir, dir)
-        #     path2 = os.path.join(parent_dir, dir2)
-        #     if not os.path.isdir(path + path2):
-        #         os.mkdir(path, mode)
-        #         os.mkdir(path2, mode)
-        #     else:
-        #         return
-        #     cmd("git clone https://github.com/Tiiffi/mcrcon.git tools/mcrcon")
-        #     cmd("cd tools/mcron")
-        #     cmd("gcc -std=gnu11 -pedantic -Wall -Wextra -O2 -s -o mcrcon mcrcon.c")
-        #     cmd("cd " + pwd)
+        def mcron_setup():
+
+            cmd("git clone https://github.com/Tiiffi/mcrcon.git minecraft-server/mcrcon")
+            cmd("cd minecraft-server/mcron")
+            cmd("make")
+            cmd("sudo make install")
+            cmd("cd " + pwd)
 
 
         def update_server():
@@ -130,11 +120,9 @@ else:
         if type_of_os == "sh":
             service_file()
             make_main_world()
-            update_server()
-            
+            update_server()         
             cmd("java -jar BuildTools.jar --rev " + version)
-
-            # mcron_setup()
+            mcron_setup()
         else:
             update_server()
             cmd("java -jar BuildTools.jar --rev " + version)
