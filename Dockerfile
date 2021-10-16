@@ -27,6 +27,7 @@ WORKDIR /config/minecraft-server
 RUN git pull
 RUN pip3 install click requests
 RUN python3 init-server.py -v ${VERISON} -c ${CORES} -r ${RAM} -p ${PORT} -s ${SERVICE}
+RUN java -jar BuildTools.jar --rev ${VERISON}
 RUN cp minecraft.service /etc/systemd/system/minecraft.service
 RUN systemctl daemon-reload
 CMD systemctl start minecraft.service

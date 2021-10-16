@@ -65,7 +65,7 @@ try:
 Description=Minecraft Server
 After=network.target
 [Service]
-User=""" + user + """
+Type=oneshotUser=""" + user + """
 Nice=1
 KillMode=none
 SuccessExitStatus=0 1
@@ -74,7 +74,7 @@ ProtectSystem=full
 PrivateDevices=true
 NoNewPrivileges=true
 WorkingDirectory=""" + pwd + """
-ExecStart= /usr/bin/bash """ + pwd +"""start.sh
+ExecStart= /usr/bin/bash """ + pwd +"""/start.sh
 ExecStop=/usr/bin/mcrcon -H 127.0.0.1 -P 25575 -p password stop
 ExecReload=/usr/bin/mcrcon -H 127.0.0.1 -P 25575 -p password restart
 [Install]
