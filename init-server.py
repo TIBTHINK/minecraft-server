@@ -65,7 +65,7 @@ try:
 Description=Minecraft Server
 After=network.target
 [Service]
-Type=oneshotUser=""" + user + """
+User=""" + user + """
 Nice=1
 KillMode=none
 SuccessExitStatus=0 1
