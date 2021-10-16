@@ -121,7 +121,7 @@ else:
             service_file()
             make_main_world()
             update_server()         
-            cmd("java -jar BuildTools.jar --rev " + version)
+            
             # if SECRET_KEY:
             #     print("")
             # else:
@@ -130,8 +130,8 @@ else:
 
         else:
             update_server()
-            cmd("java -jar BuildTools.jar --rev " + version)
-
+            
+        cmd("java -jar BuildTools.jar --rev " + version)
 
         if SECRET_KEY:
             start_server = "n"
