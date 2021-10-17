@@ -51,11 +51,11 @@ a example docker command would look like:
 ``` bash
 docker run -d \
   --name=minecraft-server \
-  -e VERSION= 1.16.1
-  -e CORES=4
-  -e RAM=2048
-  -e SERVICE=minecraft
-  -e TZ=America/New_York
+  -e VERSION= 1.16.1 \
+  -e CORES=4 \
+  -e RAM=2048 \
+  -e SERVICE=minecraft \
+  -e TZ=America/New_York\
   -p 25565:25565 \
   -v /path/to/appdata/config:/config \
   --restart unless-stopped \
@@ -66,4 +66,5 @@ docker run -d \
 
 Install of mcron \
 Detect if requirements are met \
-docker file/image
+docker file/image \
+Installing correct libray for 1.17+
