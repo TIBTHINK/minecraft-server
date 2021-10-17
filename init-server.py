@@ -127,11 +127,13 @@ else:
             # else:
             #     # mcron_setup()
             
-
         else:
             update_server()
             
-        cmd("java -jar BuildTools.jar --rev " + version)
+        if SECRET_KEY:
+            print("SWEET CAROLINE")
+        else:
+            cmd("java -jar BuildTools.jar --rev " + version)
 
         if SECRET_KEY:
             start_server = "n"
