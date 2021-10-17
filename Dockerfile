@@ -16,19 +16,20 @@ WORKDIR /config
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt update 
 RUN apt install git openjdk-8-jre-headless openjdk-8-jre-headless python3 python3-pip gcc systemctl wget iptables -y
-RUN git clone https://github.com/tibthink/minecraft-server 
+COPY init-server.py /config/init-server.py
+# RUN git clone https://github.com/tibthink/minecraft-server 
 RUN git clone https://github.com/Tiiffi/mcrcon 
 WORKDIR /config/mcrcon
 RUN make
 RUN cp mcrcon /usr/bin/mcrcon
 RUN chmod +x /usr/bin/mcrcon
 RUN /usr/bin/mcrcon -v
-WORKDIR /config/minecraft-server
+WORKDIR /config
 RUN git pull
 RUN pip3 install click requests
 RUN python3 init-server.py -v ${V} -c ${CORES} -r ${RAM} -p ${PORT} -s ${SERVICE}
 RUN java -jar BuildTools.jar --rev ${V}
-RUN chmod +x /config/minecraft-server/start.sh
+RUN chmod +x /config/start.sh
 # RUN iptables -A INPUT -p tcp --dport 25565 -j ACCEPT
 # RUN netfilter-persistent save
 # RUN netfilter-persistent reload
