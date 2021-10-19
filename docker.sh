@@ -1,8 +1,8 @@
 docker rmi minecraft-test
-docker buildx build --build-arg CACHEBUST=$(date +%s) --progress plain -t  minecraft-server .
-# docker run -td --name minecraft-test minecraft-server 
+docker build -t  minecraft-server .
+# docker run -t --name minecraft-test minecraft-server /bin/bash 
 
-docker run -d \
+docker run -d -t \
   --name=minecraft-server \
   -e V=1.16.1 \
   -e CORES=4 \
@@ -10,9 +10,10 @@ docker run -d \
   -e SERVICE=minecraft \
   -e TZ=America/New_York\
   -p 25565:25565 \
-  -v /path/to/appdata/config:/config \
-  --restart unless-stopped \
-  docker.io/library/minecraft-server
+  -v /com.docker.devenvironments.code/config:/config \
+  minecraft-server \
+  
+  
 # docker exec -id minecraft-server bash
 # docker stop minecraft-server
 # docker rm minecraft-server
