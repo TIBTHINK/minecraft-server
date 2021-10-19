@@ -1,5 +1,5 @@
 docker rmi minecraft-test
-docker build -t  minecraft-server .
+docker build -t  tibthink/minecraft-server .
 # docker run -t --name minecraft-test minecraft-server /bin/bash 
 
 docker run -d -t \

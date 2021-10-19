@@ -1,7 +1,7 @@
 FROM ubuntu
 
 ARG CACHEBUST=1 
-ENTRYPOINT ["bash", "/config/start.sh"]
+ENTRYPOINT ["bash", "start.sh"]
 ENV V=1.16.1
 ENV CORES=4
 ENV RAM=2048
@@ -26,9 +26,11 @@ RUN /usr/bin/mcrcon -v
 WORKDIR /config/
 RUN pip3 install click requests
 RUN python3 init-server.py -v ${V} -c ${CORES} -r ${RAM} -p ${PORT} -s ${SERVICE}
+RUN touch /config/start.sh
 RUN echo java -server -XX:ParallelGCThreads=${CORES} -Xms256M -Xmx${RAM}M -jar /config/spigot-${V}.jar nogui > /config/start.sh
-RUN java -jar BuildTools.jar --rev ${V}
 RUN chmod +x /config/start.sh
+RUN java -jar BuildTools.jar --rev ${V}
+
 # RUN iptables -A INPUT -p tcp --dport 25565 -j ACCEPT
 # RUN netfilter-persistent save
 # RUN netfilter-persistent reload
