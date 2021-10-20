@@ -7,7 +7,7 @@ ENV CORES=4
 ENV RAM=2048
 ENV PORT=25565
 ENV SERVICE=minecraft
-ENV HOME=/config
+ENV HOME=/config/
 ENV TZ=America/New_York
 # DONT TOUCH THIS ONE\/
 ENV AM_I_IN_A_DOCKER_CONTAINER Yes
@@ -30,13 +30,5 @@ RUN touch /config/start.sh
 RUN echo java -server -XX:ParallelGCThreads=${CORES} -Xms256M -Xmx${RAM}M -jar /config/spigot-${V}.jar nogui > /config/start.sh
 RUN chmod +x /config/start.sh
 RUN java -jar BuildTools.jar --rev ${V}
-
-# RUN iptables -A INPUT -p tcp --dport 25565 -j ACCEPT
-# RUN netfilter-persistent save
-# RUN netfilter-persistent reload
-
-# RUN ufw allow 25565
-# RUN ufw enable
-
 
 EXPOSE ${PORT}
