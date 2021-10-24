@@ -55,14 +55,12 @@ docker run -d \
   -e CORES=4 \
   -e RAM=2048 \
   -e SERVICE=minecraft \
-  -e TZ=America/New_York\
+  -e TZ=America/New_York \
   -p 25565:25565 \
   -v /path/to/appdata/config:/config \
   --restart unless-stopped \
   docker.io/tibthink/minecraft-server
 ```
-STATUS UPDATE: the docker file is running correctly but i am not able to connect to the server \
-i think i need to do some fire wall stuff using ufw but thats a issue on its own 
 
 ## Going to be added to the script
 

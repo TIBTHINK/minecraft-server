@@ -2,16 +2,18 @@ docker rmi minecraft-test
 docker build -t  tibthink/minecraft-server .
 # docker run -t --name minecraft-test minecraft-server /bin/bash 
 
-docker run -d -t \
+
+docker run -d \
   --name=minecraft-server \
-  -e V=1.16.1 \
+  -e GAME_VER= 1.16.1 \
   -e CORES=4 \
   -e RAM=2048 \
   -e SERVICE=minecraft \
   -e TZ=America/New_York\
   -p 25565:25565 \
-  -v /com.docker.devenvironments.code/config:/config \
-  minecraft-server \
+  -v /home/tibthink/minecraft/config:/config \
+  --restart unless-stopped \
+  docker.io/tibthink/minecraft-server
   
   
 # docker exec -id minecraft-server bash

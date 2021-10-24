@@ -103,7 +103,7 @@ if os.geteuid() != 0:
 else:
     cmd("systemctl stop minecraft.service")
     cmd("cp minecraft.service /etc/systemd/system/minecraft.service")
-    cmd("systemctl daemon-reload")
+    cmd("systemctl daemon-reload") 
     cmd("systemctl start minecraft.service")
     cmd("systemctl enable minecraft.service")
                 """)
@@ -112,34 +112,26 @@ else:
         if not os.path.isfile("BuildTools.jar"):
             print("###DOWNLOADING REQUIRED FILES###")
             open(pwd + "/BuildTools.jar", 'wb').write(requests.get("https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar").content)
-
+        # Auto accpeting eula, making a sick start script and setting custom ports
         open("eula.txt", "w+").write("eula=true")
         open("start." + type_of_os + "", "w+").write("java -server -XX:ParallelGCThreads=" + cores + " -Xms256M -Xmx" + str(ram) + "M -jar " + pwd +  "/spigot-" + version + ".jar nogui ")
         open("server.properties", "w+").write("server-port=" + str(port) + "")
-
+        # checking if this server supports custom scripts
         if type_of_os == "sh":
             service_file()
             make_main_world()
-            update_server()         
-            
-            # if SECRET_KEY:
-            #     print("")
-            # else:
-            #     # mcron_setup()
-            
+            update_server()                    
         else:
             update_server()
-            
+        # Listen, we dont like no docker containers
+        # Checks to understand what to do
         if SECRET_KEY:
             print("SWEET CAROLINE")
-        else:
-            cmd("java -jar BuildTools.jar --rev " + version)
-
-        if SECRET_KEY:
             start_server = "n"
         else:
+            cmd("java -jar BuildTools.jar --rev " + version)
             start_server = input("Would you like to start the server? [y/N]") or "n"
-        
+        # Auto start server
         if start_server == "y":
             if type_of_os == "sh":
                 cmd("bash start.sh")
