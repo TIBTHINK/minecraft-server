@@ -41,12 +41,4 @@ RUN echo java -server -XX:ParallelGCThreads=${CORES} -Xms256M -Xmx${RAM}M -jar /
 RUN chmod +x /config/start.sh
 RUN java -jar BuildTools.jar --rev ${GAME_VER}
 
-# RUN iptables -A INPUT -p tcp --dport 25565 -j ACCEPT
-# RUN netfilter-persistent save
-# RUN netfilter-persistent reload
-
-# RUN ufw allow 25565
-# RUN ufw enable
-
-
 EXPOSE ${PORT}
