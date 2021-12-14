@@ -17,14 +17,14 @@ pwd = os.getcwd()
 response = requests.get("https://launchermeta.mojang.com/mc/game/version_manifest.json")
 output = response.json()
 data = json.dumps(output['latest']['release'])
-core_count = str(multiprocessing.cpu_count())
-pwd = os.getcwd()
+core_count = multiprocessing.cpu_count()
 SECRET_KEY = os.environ.get('AM_I_IN_A_DOCKER_CONTAINER', False)
 
 if SECRET_KEY:
     user = 'minecraft'
 else:
-    user = os.getlogin()
+    user = 'minecraft'
+    # user = os.getlogin()
 
 system = platform.system()
 if system == "Windows":
@@ -42,22 +42,18 @@ latest_release = remove_punct
 try:
   
     @click.command()
-    @click.option("-v", "--version", default=latest_release, prompt="What version of minecraft do you want?: ", help="Choose what version of the game")
+    @click.option("-v", "--version", is_flag=False, flag_value=latest_release, default=latest_release, help="Choose what version of the game(Defult: " + latest_release + ")")
     @click.option("-c", "--cores", default=core_count, prompt="How many cores do you want to give to the server: ", help="Set how many cores you want the server to use")
-    @click.option("-r", "--ram", default=2048, prompt="How much ram would you like the server to use", help="set how much allocated ram to the server")
-    @click.option("-p", "--port", default=25565, prompt="Which port do you want the server to be on", help="set what port you want the server to run on")
-    @click.option("-s", "--service", default="minecraft", prompt="Name of the service file to be generated?:", help="Sets the service name")
-    
+    @click.option("-r", "--ram", default=2048, prompt="How much ram would you like the server to use", help="Set how much allocated ram to the server")
+    @click.option("-p", "--port", default=25565, prompt="Which port do you want the server to be on", help="Set what port you want the server to run on")
+    @click.option("-s", "--service", is_flag=False, flag_value="minecraft", default="minecraft", help="Sets the service name(Optional)")
+    @click.option("-P", "--pluginpack", is_flag=False, flag_value=True, default=False, help="Generates a script of essential spigot plugins(Optional)")
 
 
-    def main(version, cores, ram, port, service):
-        version = version
-        cores = cores
-        ram = ram
-        port = port
-        service = service
-    
+    def main(version, cores, ram, port, service, pluginpack):
 
+        def Plugin_pack_script_gen(pluginpack):
+            if pluginpack:
 
 
         def service_file():
@@ -114,7 +110,7 @@ else:
             open(pwd + "/BuildTools.jar", 'wb').write(requests.get("https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar").content)
         # Auto accpeting eula, making a sick start script and setting custom ports
         open("eula.txt", "w+").write("eula=true")
-        open("start." + type_of_os + "", "w+").write("java -server -XX:ParallelGCThreads=" + cores + " -Xms256M -Xmx" + str(ram) + "M -jar " + pwd +  "/spigot-" + version + ".jar nogui ")
+        open("start." + type_of_os + "", "w+").write("java -server -XX:ParallelGCThreads=" + str(cores) + " -Xms256M -Xmx" + str(ram) + "M -jar " + pwd +  "/spigot-" + version + ".jar nogui ")
         open("server.properties", "w+").write("server-port=" + str(port) + "")
         # checking if this server supports custom scripts
         if type_of_os == "sh":
