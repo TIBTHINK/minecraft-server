@@ -51,8 +51,9 @@ try:
 
     def main(version, cores, ram, port, service, pluginpack, debug):
 
-        # def Plugin_pack_script_gen(pluginpack):
-            # if pluginpack
+        def Plugin_pack_script_gen(pluginpack):
+            if pluginpack:
+                
 
         def service_file():
             open("./" + service + ".service", "w+").write("""[Unit]

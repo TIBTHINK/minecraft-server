@@ -21,6 +21,7 @@ class plugins():
     def worldboarder(url, name):
         wb_respone = requests.get(url)
         data = wb_respone.json()
-        
+        open(pwd + "/plugins/" + name, 'wb').write(requests.get(download_link).content)
+
 
 plugins.dynmap("https://api.github.com/repos/webbukkit/dynmap/releases", "dynmap.jar")
