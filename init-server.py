@@ -23,8 +23,7 @@ SECRET_KEY = os.environ.get('AM_I_IN_A_DOCKER_CONTAINER', False)
 if SECRET_KEY:
     user = 'minecraft'
 else:
-    user = 'minecraft'
-    # user = os.getlogin()
+    print(SECRET_KEY)
 
 system = platform.system()
 if system == "Windows":
@@ -47,14 +46,13 @@ try:
     @click.option("-r", "--ram", default=2048, prompt="How much ram would you like the server to use", help="Set how much allocated ram to the server")
     @click.option("-p", "--port", default=25565, prompt="Which port do you want the server to be on", help="Set what port you want the server to run on")
     @click.option("-s", "--service", is_flag=False, flag_value="minecraft", default="minecraft", help="Sets the service name(Optional)")
-    @click.option("-P", "--pluginpack", is_flag=False, flag_value=True, default=False, help="Generates a script of essential spigot plugins(Optional)")
+    @click.option("-P", "--pluginpack", is_flag=True, flag_value=True, help="Generates a script of essential spigot plugins(Optional)")
+    @click.option("-d", "--debug", is_flag=True, flag_value=True, help="Allows to run a debug on any machine with defult vaules")
 
+    def main(version, cores, ram, port, service, pluginpack, debug):
 
-    def main(version, cores, ram, port, service, pluginpack):
-
-        def Plugin_pack_script_gen(pluginpack):
-            if pluginpack:
-
+        # def Plugin_pack_script_gen(pluginpack):
+            # if pluginpack
 
         def service_file():
             open("./" + service + ".service", "w+").write("""[Unit]

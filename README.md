@@ -31,12 +31,15 @@ tibthink@JARVIS:~/minecraft-server$ python3 init-server.py --help
 Usage: init-server.py [OPTIONS]
 
 Options:
-  -v, --version TEXT  Choose what version of the game
-  -c, --cores TEXT    Set how many cores you want the server to use
-  -r, --ram INTEGER   set how much allocated ram to the server
-  -p, --port INTEGER  set what port you want the server to run on
-  -s, --service TEXT  Sets the service name
-  --help              Show this message and exit.
+  -v, --version TEXT   Choose what version of the game(Defult: 1.18.1)
+  -c, --cores INTEGER  Set how many cores you want the server to use
+  -r, --ram INTEGER    Set how much allocated ram to the server
+  -p, --port INTEGER   Set what port you want the server to run on
+  -s, --service TEXT   Sets the service name(Optional)
+  -P, --pluginpack     Generates a script of essential spigot
+                       plugins(Optional)
+  -d, --debug          Allows to run a debug on any machine with defult vaules
+  --help               Show this message and exit.
 ```
 
 A example use would be:
