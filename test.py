@@ -11,17 +11,21 @@ import click
 
 pwd = os.getcwd()
 class plugins():
-    def dynmap(url, name):
+    def github_downloader(url, name, sub=1):
         dynmap_response = requests.get(url)
         data = dynmap_response.json()
         spigot_number = len(data[1]['assets'])
-        download_link = data[1]['assets'][spigot_number - 1]['browser_download_url']
-        open(pwd + "/plugins/" + name, 'wb').write(requests.get(download_link).content)
-    
-    def worldboarder(url, name):
-        wb_respone = requests.get(url)
-        data = wb_respone.json()
-        open(pwd + "/plugins/" + name, 'wb').write(requests.get(download_link).content)
+        print(data[1]['assets'][spigot_number - sub]['browser_download_url'])
+        # open(pwd + "/plugins/" + name, 'wb').write(requests.get(download_link).content)
+    def github_downloader_single_release(url, name, sub=1):
+        dynmap_response = requests.get(url)
+        data = dynmap_response.json()
+        # spigot_number = len(data[0]['assets'])
+        print(data[0]['assets'][0]['browser_download_url'])
 
 
-plugins.dynmap("https://api.github.com/repos/webbukkit/dynmap/releases", "dynmap.jar")
+
+plugins.github_downloader("https://api.github.com/repos/webbukkit/dynmap/releases", "Dynmap.jar")
+plugins.github_downloader("https://api.github.com/repos/PryPurity/WorldBorder/releases", "WorldBorder.jar")
+plugins.github_downloader("https://api.github.com/repos/EssentialsX/Essentials/releases", "EssentialsX.jar", 8 )
+plugins.github_downloader_temp("https://api.github.com/repos/TIBTHINK/payRespect/releases", "PayRespect.jar")

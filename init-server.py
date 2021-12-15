@@ -20,10 +20,6 @@ data = json.dumps(output['latest']['release'])
 core_count = multiprocessing.cpu_count()
 SECRET_KEY = os.environ.get('AM_I_IN_A_DOCKER_CONTAINER', False)
 
-if SECRET_KEY:
-    user = 'minecraft'
-else:
-    print(SECRET_KEY)
 
 system = platform.system()
 if system == "Windows":
@@ -51,9 +47,14 @@ try:
 
     def main(version, cores, ram, port, service, pluginpack, debug):
 
+        if SECRET_KEY or debug:
+            user = 'minecraft'
+        else:
+            print(SECRET_KEY)
+
         def Plugin_pack_script_gen(pluginpack):
             if pluginpack:
-                
+                print("coming soon")
 
         def service_file():
             open("./" + service + ".service", "w+").write("""[Unit]
