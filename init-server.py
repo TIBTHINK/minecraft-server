@@ -135,7 +135,6 @@ WantedBy=multi-user.target
     def make_main_world():
         open("./makeMainWorld.py", "w+").write("""from os import system as cmd
 import os
-from os import system as cmd
 if os.geteuid() != 0:
     exit("please run me as root")
 else:

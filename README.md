@@ -21,7 +21,8 @@ Auto accepts the EULA before boot. \
 Auto detect how many cores are in the system. \
 Windows supported. [Beta] \
 Arch based OS supported. \
-Command line configuration 
+Command line configuration \
+Plugin pack script generator
 
 ## Command line configuration
 you can easly find out the command line config by typing
@@ -36,7 +37,7 @@ Options:
   -r, --ram INTEGER    Set how much allocated ram to the server
   -p, --port INTEGER   Set what port you want the server to run on
   -s, --service TEXT   Sets the service name(Optional)
-  -P, --pluginpack     Generates a script of essential spigot
+  -P, --pluginpack     Generates a script of essential spigot 
                        plugins(Optional)
   -d, --debug          Allows to run a debug on any machine with defult vaules
   --help               Show this message and exit.
@@ -53,6 +54,7 @@ For installing the plugin pack you would run a command like this:
 ``` bash
 tibthink@JARVIS:~/minecraft-server$ python3 init-server.py --version 1.17.1 --cores 3 --ram 1024 --port 4444 --service test -P
 ```
+To update plugins simply just run pluginpack.py and it will automaticly download the latest versions
 really that simple
 ## Docker
 
