@@ -5,7 +5,7 @@ A few scrips to setup a spigot server in a jif
 All you need to run this program is python3 and the java dev kit
 Ubuntu Based installs
 ``` bash
-sudo apt install git openjdk-8-jre-headless python3
+sudo apt install git openjdk-17-jre-headless python3
 ```
 Arch Based installs
 ```bash
