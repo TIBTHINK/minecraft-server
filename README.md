@@ -55,7 +55,7 @@ For installing the plugin pack you would run a command like this:
 tibthink@JARVIS:~/minecraft-server$ python3 init-server.py --version 1.17.1 --cores 3 --ram 1024 --port 4444 --service test -P
 ```
 To update plugins simply just run pluginpack.py and it will automaticly download the latest versions
-really that simple
+
 ## Docker
 
 as of right now docker isnt working, but i am working on it. \
