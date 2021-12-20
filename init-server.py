@@ -14,8 +14,7 @@ import click
 
 pwd = os.getcwd()
 
-response = requests.get(
-    "https://launchermeta.mojang.com/mc/game/version_manifest.json")
+response = requests.get("https://launchermeta.mojang.com/mc/game/version_manifest.json")
 output = response.json()
 data = json.dumps(output['latest']['release'])
 core_count = multiprocessing.cpu_count()
@@ -42,7 +41,7 @@ latest_release = remove_punct
 @click.option("-r", "--ram", default=2048, prompt="How much ram would you like the server to use", help="Set how much allocated ram to the server")
 @click.option("-p", "--port", default=25565, prompt="Which port do you want the server to be on", help="Set what port you want the server to run on")
 @click.option("-s", "--service", is_flag=False, flag_value="minecraft", default="minecraft", help="Sets the service name(Optional)")
-@click.option("-P", "--pluginpack", flag_value=True, help="Generates a script of essential spigot plugins(Optional)")
+@click.option("-P", "--pluginpack", is_flag=True, flag_value=True, help="Generates a script of essential spigot plugins(Optional)")
 @click.option("-d", "--debug", is_flag=True, flag_value=True, help="Allows to run a debug on any machine with defult vaules")
 @click.option("-y", "--yes", is_flag=True, flag_value=True, help="You can have the server start on its own ")
 def main(version, cores, ram, port, service, pluginpack, debug, yes):
@@ -59,8 +58,8 @@ def main(version, cores, ram, port, service, pluginpack, debug, yes):
     if SECRET_KEY or debug:
         user = 'minecraft'
     else:
-        # user = os.getlogin()
-        print("lol")
+        user = os.getlogin()
+
     if pluginpack:
         open("./pluginpack.py", "w+").write("""import os
 import json
@@ -96,20 +95,15 @@ if __name__ == '__main__':
     plugins.github_downloader("https://api.github.com/repos/webbukkit/dynmap/releases", "Dynmap.jar")
     plugins.github_downloader("https://api.github.com/repos/PryPurity/WorldBorder/releases", "WorldBorder.jar")
     plugins.github_downloader("https://api.github.com/repos/EssentialsX/Essentials/releases", "EssentialsX.jar", 8 )
-    plugins.github_downloader_sr("https://api.github.com/repos/TIBTHINK/payRespect/releases", "PayRespect.jar")
-                """)
+    plugins.github_downloader_sr("https://api.github.com/repos/TIBTHINK/payRespect/releases", "PayRespect.jar")""")
         from pluginpack import plugins
-        plugins.github_downloader(
-            "https://api.github.com/repos/webbukkit/dynmap/releases", "Dynmap.jar")
-        plugins.github_downloader(
-            "https://api.github.com/repos/PryPurity/WorldBorder/releases", "WorldBorder.jar")
-        plugins.github_downloader(
-            "https://api.github.com/repos/EssentialsX/Essentials/releases", "EssentialsX.jar", 8)
-        plugins.github_downloader_sr(
-            "https://api.github.com/repos/TIBTHINK/payRespect/releases", "PayRespect.jar")
+        plugins.github_downloader("https://api.github.com/repos/webbukkit/dynmap/releases", "Dynmap.jar")
+        plugins.github_downloader("https://api.github.com/repos/PryPurity/WorldBorder/releases", "WorldBorder.jar")
+        plugins.github_downloader("https://api.github.com/repos/EssentialsX/Essentials/releases", "EssentialsX.jar", 8)
+        plugins.github_downloader_sr("https://api.github.com/repos/TIBTHINK/payRespect/releases", "PayRespect.jar")
 
-    def service_file():
-        open("./" + service + ".service", "w+").write("""[Unit]
+    def service_file(service):
+        open("/" + service + ".service", "w+").write("""[Unit]
     Description=Minecraft Server
     After=network.target
     [Service]
@@ -128,7 +122,7 @@ if __name__ == '__main__':
     [Install]
     WantedBy=multi-user.target""")
 
-    def update_server():
+    def update_server(type_of_os, version):
         open("./update-server." + type_of_os + "", "w+").write("""java -jar BuildTools.jar --rev """ + version)
 
     def make_main_world():
@@ -142,16 +136,16 @@ else:
     cmd("systemctl daemon-reload") 
     cmd("systemctl start minecraft.service")
     cmd("systemctl enable minecraft.service")""")
-    def backend():
+
+
+    def backend(pwd, cores, ram, version, port):
         print("Checking if BuildTools in installed")
         if not os.path.isfile("BuildTools.jar"):
             print("###DOWNLOADING REQUIRED FILES###")
-            open(pwd + "BuildTools.jar", 'wb+').write(requests.get(
-                "https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar").content)
+            open(pwd + "BuildTools.jar", 'wb+').write(requests.get("https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar").content)
         # Auto accpeting eula, making a sick start script and setting custom ports
         open("eula.txt", "w+").write("eula=true")
-        open("start." + type_of_os, "w+").write("java -server -XX:ParallelGCThreads=" + str(cores) +
-                                                " -Xms256M -Xmx" + str(ram) + "M -jar " + pwd + "/spigot-" + version + ".jar nogui ")
+        open("start." + type_of_os, "w+").write("java -server -XX:ParallelGCThreads=" + str(cores) +" -Xms256M -Xmx" + str(ram) + "M -jar " + pwd + "/spigot-" + version + ".jar nogui")
         open("server.properties", "w+").write("server-port=" + str(port) + "")
         # checking if this server supports custom scripts
         if type_of_os == "sh":
@@ -162,14 +156,12 @@ else:
             update_server()
         # Listen, we dont like no docker containers
         # Checks to understand what to do
-        if SECRET_KEY:
+        if SECRET_KEY or yes:
             start_server = "y"
             cmd("java -jar BuildTools.jar --rev " + version)
         elif debug:
             start_server = "n"
             cmd("java -jar BuildTools.jar --rev " + version)
-        elif yes:
-            start_server = "y"
         else:
             cmd("java -jar BuildTools.jar --rev " + version)
             start_server = input(
@@ -186,4 +178,4 @@ else:
 
 if __name__ == '__main__':
     main()
-    backend()
+    main.backend()
