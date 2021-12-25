@@ -1,0 +1,17 @@
+__pycache__
+apache-maven-3.6.0
+BuildData
+Bukkit
+CraftBukkit
+plugins
+Spigot
+work
+BuildTools.jar
+BuildTools.log.txt
+eula.txt
+makeMainWorld.py
+minecraft.service
+pluginpack.py
+server.properties
+start.sh
+update-server.sh
