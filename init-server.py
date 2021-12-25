@@ -48,9 +48,10 @@ try:
     @click.option("-p", "--port", default=25565, prompt="Which port do you want the server to be on", help="Set what port you want the server to run on")
     @click.option("-s", "--service", is_flag=False, flag_value="minecraft", default="minecraft", help="Sets the service name(Optional)")
     @click.option("-P", "--pluginpack", is_flag=True, flag_value=True, help="Generates a script of essential spigot plugins(Optional)")
+    @click.option("-y", "--yes", is_flag=True, flag_value=True, help="Says yes to autostarting the server")
 
 
-    def main(version, cores, ram, port, service, pluginpack):
+    def main(version, cores, ram, port, service, pluginpack, yes):
 
         def plugin_pack_script_gen():
             open("./pluginpack.py", "w+").write("""# Yes i know, i could find a way to get the name of the jar file,
@@ -159,12 +160,13 @@ else:
         # Listen, we dont like no docker containers
         # Checks to understand what to do
         if SECRET_KEY:
-            print("SWEET CAROLINE")
             start_server = "n"
+        elif yes:
+            start_server = "y"
         else:
-            cmd("java -jar BuildTools.jar --rev " + version)
             start_server = input("Would you like to start the server? [y/N]") or "n"
-
+        cmd("java -jar BuildTools.jar --rev " + version)
+        
         if pluginpack:
             plugin_pack_script_gen()
         # Auto start server
