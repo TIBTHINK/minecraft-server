@@ -37,9 +37,9 @@ Options:
   -r, --ram INTEGER    Set how much allocated ram to the server
   -p, --port INTEGER   Set what port you want the server to run on
   -s, --service TEXT   Sets the service name(Optional)
-  -P, --pluginpack     Generates a script of essential spigot 
+  -P, --pluginpack     Generates a script of essential spigot
                        plugins(Optional)
-  -d, --debug          Allows to run a debug on any machine with defult vaules
+  -y, --yes            Says yes to autostarting the server
   --help               Show this message and exit.
 ```
 
