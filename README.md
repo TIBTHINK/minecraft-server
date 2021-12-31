@@ -40,6 +40,7 @@ Options:
   -P, --pluginpack     Generates a script of essential spigot
                        plugins(Optional)
   -y, --yes            Says yes to autostarting the server
+  -d, --debug          Defults vaules to check to make sure things are working
   --help               Show this message and exit.
 ```
 

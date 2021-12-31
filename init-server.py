@@ -45,7 +45,7 @@ try:
     @click.option("-s", "--service", is_flag=False, flag_value="minecraft", default="minecraft", help="Sets the service name(Optional)")
     @click.option("-P", "--pluginpack", is_flag=True, flag_value=True, help="Generates a script of essential spigot plugins(Optional)")
     @click.option("-y", "--yes", is_flag=True, flag_value=True, help="Says yes to autostarting the server")
-    @click.option("-d", "--debug", is_flag=True, flag_value=True, help="")
+    @click.option("-d", "--debug", is_flag=True, flag_value=True, help="Defults vaules to check to make sure things are working")
 
 
     def main(version, cores, ram, port, service, pluginpack, yes, debug):
