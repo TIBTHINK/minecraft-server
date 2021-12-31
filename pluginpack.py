@@ -1,12 +1,12 @@
 # Yes i know, i could find a way to get the name of the jar file,
 # but i am not motivated to give a fuck about it so you guys just
 # have to deal with the lazyness 
-
 import os
 import json
 import requests
 pwd = str(os.getcwd())
 class plugins():
+    # This is for repos with more than one release version
     def github_downloader(url, name, sub=1):
         folder_check = os.path.exists(pwd + "/plugins") 
         if not folder_check:
@@ -17,6 +17,7 @@ class plugins():
         spigot_number = len(data[1]['assets'])
         download_link = data[1]['assets'][spigot_number - sub]['browser_download_url']
         open(pwd + "/plugins/" + name, 'wb').write(requests.get(download_link).content)
+    # This is for repo's that have a single release
     def github_downloader_sr(url, name,):
         folder_check = os.path.exists(pwd + "/plugins") 
         if not folder_check:

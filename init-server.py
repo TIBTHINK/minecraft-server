@@ -20,11 +20,7 @@ data = json.dumps(output['latest']['release'])
 core_count = multiprocessing.cpu_count()
 SECRET_KEY = os.environ.get('AM_I_IN_A_DOCKER_CONTAINER', False)
 
-if SECRET_KEY:
-    user = 'minecraft'
-else:
-    user = 'minecraft'
-    # user = os.getlogin()
+
 
 system = platform.system()
 if system == "Windows":
@@ -49,20 +45,25 @@ try:
     @click.option("-s", "--service", is_flag=False, flag_value="minecraft", default="minecraft", help="Sets the service name(Optional)")
     @click.option("-P", "--pluginpack", is_flag=True, flag_value=True, help="Generates a script of essential spigot plugins(Optional)")
     @click.option("-y", "--yes", is_flag=True, flag_value=True, help="Says yes to autostarting the server")
+    @click.option("-d", "--debug", is_flag=True, flag_value=True, help="")
 
 
-    def main(version, cores, ram, port, service, pluginpack, yes):
+    def main(version, cores, ram, port, service, pluginpack, yes, debug):
+        if SECRET_KEY or debug:
+            user = 'minecraft'
+        else:
+            user = os.getlogin()
 
         def plugin_pack_script_gen():
             open("./pluginpack.py", "w+").write("""# Yes i know, i could find a way to get the name of the jar file,
 # but i am not motivated to give a fuck about it so you guys just
 # have to deal with the lazyness 
-
 import os
 import json
 import requests
 pwd = str(os.getcwd())
 class plugins():
+    # This is for repos with more than one release version
     def github_downloader(url, name, sub=1):
         folder_check = os.path.exists(pwd + "/plugins") 
         if not folder_check:
@@ -73,6 +74,7 @@ class plugins():
         spigot_number = len(data[1]['assets'])
         download_link = data[1]['assets'][spigot_number - sub]['browser_download_url']
         open(pwd + "/plugins/" + name, 'wb').write(requests.get(download_link).content)
+    # This is for repo's that have a single release
     def github_downloader_sr(url, name,):
         folder_check = os.path.exists(pwd + "/plugins") 
         if not folder_check:
@@ -151,23 +153,24 @@ else:
         open("start." + type_of_os + "", "w+").write("java -server -XX:ParallelGCThreads=" + str(cores) + " -Xms256M -Xmx" + str(ram) + "M -jar " + pwd +  "/spigot-" + version + ".jar nogui ")
         open("server.properties", "w+").write("server-port=" + str(port) + "")
         # checking if this server supports custom scripts
-        if type_of_os == "sh":
+        if type_of_os == "sh" or debug:
             service_file()
             make_main_world()
             update_server()                    
         else:
             update_server()
+               
+        cmd("java -jar BuildTools.jar --rev " + version)
         # Listen, we dont like no docker containers
         # Checks to understand what to do
-        if SECRET_KEY:
+        if SECRET_KEY or debug:
             start_server = "n"
         elif yes:
             start_server = "y"
         else:
             start_server = input("Would you like to start the server? [y/N]") or "n"
-        cmd("java -jar BuildTools.jar --rev " + version)
         
-        if pluginpack:
+        if pluginpack or debug:
             plugin_pack_script_gen()
         # Auto start server
         if start_server == "y":
