@@ -3,11 +3,11 @@
 A few scrips to setup a spigot server in a jif
 
 All you need to run this program is python3 and the java dev kit
-Ubuntu Based installs
+Debain based installs
 ``` bash
 sudo apt install git openjdk-17-jre-headless python3
 ```
-Arch Based installs
+Arch based installs
 ```bash
 sudo pacman -Sy git jre8-openjdk-headless python3 gcc
 ```
@@ -40,7 +40,7 @@ Options:
   -P, --pluginpack     Generates a script of essential spigot
                        plugins(Optional)
   -y, --yes            Says yes to autostarting the server
-  -d, --debug          Defults vaules to check to make sure things are working
+  -d, --debug          Enables debug mode
   --help               Show this message and exit.
 ```
 
@@ -79,5 +79,5 @@ docker run -d \
 
 Install of mcron \
 Detect if requirements are met \
-docker file/image \
-Installing correct libray for 1.17+
+Docker file/image \
+Installing correct libray for 1.17+ 
