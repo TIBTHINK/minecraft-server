@@ -45,7 +45,7 @@ try:
     @click.option("-s", "--service", is_flag=False, flag_value="minecraft", default="minecraft", help="Sets the service name(Optional)")
     @click.option("-P", "--pluginpack", is_flag=True, flag_value=True, help="Generates a script of essential spigot plugins(Optional)")
     @click.option("-y", "--yes", is_flag=True, flag_value=True, help="Says yes to autostarting the server")
-    @click.option("-d", "--debug", is_flag=True, flag_value=True, help="Defults vaules to check to make sure things are working")
+    @click.option("-d", "--debug", is_flag=True, flag_value=True, help="Enables debug mode")
 
 
     def main(version, cores, ram, port, service, pluginpack, yes, debug):
@@ -142,17 +142,16 @@ WantedBy=multi-user.target
 
 
         def make_main_world():
-            open("./makeMainWorld.py", "w+").write("""from os import system as cmd
-import os
-from os import system as cmd
-if os.geteuid() != 0:
-    exit("please run me as root")
-else:
-    cmd("systemctl stop minecraft.service")
-    cmd("cp minecraft.service /etc/systemd/system/minecraft.service")
-    cmd("systemctl daemon-reload") 
-    cmd("systemctl start minecraft.service")
-    cmd("systemctl enable minecraft.service")
+            open("./makeMainWorld.sh", "w+").write("""if [ "$EUID" -ne 0 ]
+  then echo "Please run as root"
+  exit
+fi
+
+systemctl stop minecraft.service
+cp minecraft.service /etc/systemd/system/minecraft.service
+systemctl daemon-reload
+systemctl start minecraft.service
+systemctl enable minecraft.service
                 """)
 
         print("Checking if BuildTools in installed")
@@ -174,7 +173,7 @@ else:
         cmd("java -jar BuildTools.jar --rev " + version)
         # Listen, we dont like no docker containers
         # Checks to understand what to do
-        if SECRET_KEY or debug:
+        if SECRET_KEY:
             start_server = "n"
         elif yes:
             start_server = "y"

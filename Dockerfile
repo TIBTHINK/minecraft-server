@@ -1,8 +1,5 @@
 FROM ubuntu
 
-
-
-
 ARG CACHEBUST=1 
 ENTRYPOINT ["bash", "start.sh"]
 ARG GAME_VER=1.16.1
