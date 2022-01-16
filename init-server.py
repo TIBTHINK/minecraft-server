@@ -75,7 +75,7 @@ class plugins():
         download_link = data[1]['assets'][spigot_number - sub]['browser_download_url']
         open(pwd + "/plugins/" + name, 'wb').write(requests.get(download_link).content)
     # This is for repo's that have a single release
-    def github_downloader_sr(url, name,):
+    def github_downloader_sr(url, name):
         folder_check = os.path.exists(pwd + "/plugins") 
         if not folder_check:
             path = os.path.join(pwd, "plugins")
@@ -84,16 +84,27 @@ class plugins():
         data = response.json()
         download_link = data[0]['assets'][0]['browser_download_url']
         open(pwd + "/plugins/" + name, 'wb').write(requests.get(download_link).content)
+    def jenkins_download(url, name):
+        folder_check = os.path.exists(pwd + "/plugins") 
+        if not folder_check:
+            path = os.path.join(pwd, "plugins")
+            os.mkdir(path)         
+        open(pwd + "/plugins/" + name, 'wb').write(requests.get(url).content)
+
 if __name__ == '__main__':
     plugins.github_downloader("https://api.github.com/repos/webbukkit/dynmap/releases", "Dynmap.jar")
     plugins.github_downloader("https://api.github.com/repos/PryPurity/WorldBorder/releases", "WorldBorder.jar")
     plugins.github_downloader("https://api.github.com/repos/EssentialsX/Essentials/releases", "EssentialsX.jar", 8 )
-    plugins.github_downloader_sr("https://api.github.com/repos/TIBTHINK/payRespect/releases", "PayRespect.jar")""")
+    plugins.github_downloader_sr("https://api.github.com/repos/TIBTHINK/payRespect/releases", "PayRespect.jar")
+    plugins.jenkins_download("https://ci.opencollab.dev//job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/spigot/target/Geyser-Spigot.jar", "Geyser_Spigot.jar")
+    plugins.jenkins_download("https://ci.opencollab.dev/job/GeyserMC/job/Floodgate/job/master/lastSuccessfulBuild/artifact/spigot/target/floodgate-spigot.jar", "floodgate-spigot.jar")""")
             from pluginpack import plugins
             plugins.github_downloader("https://api.github.com/repos/webbukkit/dynmap/releases", "Dynmap.jar")
             plugins.github_downloader("https://api.github.com/repos/PryPurity/WorldBorder/releases", "WorldBorder.jar")
-            plugins.github_downloader("https://api.github.com/repos/EssentialsX/Essentials/releases", "EssentialsX.jar", 8)
+            plugins.github_downloader("https://api.github.com/repos/EssentialsX/Essentials/releases", "EssentialsX.jar", 8 )
             plugins.github_downloader_sr("https://api.github.com/repos/TIBTHINK/payRespect/releases", "PayRespect.jar")
+            plugins.jenkins_download("https://ci.opencollab.dev//job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/spigot/target/Geyser-Spigot.jar", "Geyser_Spigot.jar")
+            plugins.jenkins_download("https://ci.opencollab.dev/job/GeyserMC/job/Floodgate/job/master/lastSuccessfulBuild/artifact/spigot/target/floodgate-spigot.jar", "floodgate-spigot.jar")
 
 
         def service_file():
