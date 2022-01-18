@@ -47,16 +47,19 @@ try:
     @click.option("-P", "--pluginpack", is_flag=True, flag_value=True, help="Generates a script of essential spigot plugins(Optional)")
     @click.option("-y", "--yes", is_flag=True, flag_value=True, help="Says yes to autostarting the server")
     @click.option("-d", "--debug", is_flag=True, flag_value=True, help="Enables debug mode")
+    @click.option("-b", "--backup", is_flag=True, flag_value=True)
 
 
-    def main(version, cores, ram, port, service, pluginpack, yes, debug):
+    def main(version, cores, ram, port, service, pluginpack, yes, debug, rcon, backup):
+
+        password = rcon
         if SECRET_KEY or debug:
             user = 'minecraft'
         else:
             user = os.getlogin()
 
         def plugin_pack_script_gen():
-            open("./pluginpack.py", "w+").write("""# Yes i know, i could find a way to get the name of the jar file,
+            open(pwd + "/pluginpack.py", 'w+').write("""# Yes i know, i could find a way to get the name of the jar file,
 # but i am not motivated to give a fuck about it so you guys just
 # have to deal with the lazyness 
 import os
@@ -98,7 +101,8 @@ if __name__ == '__main__':
     plugins.github_downloader("https://api.github.com/repos/EssentialsX/Essentials/releases", "EssentialsX.jar", 8 )
     plugins.github_downloader_sr("https://api.github.com/repos/TIBTHINK/payRespect/releases", "PayRespect.jar")
     plugins.jenkins_download("https://ci.opencollab.dev//job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/spigot/target/Geyser-Spigot.jar", "Geyser_Spigot.jar")
-    plugins.jenkins_download("https://ci.opencollab.dev/job/GeyserMC/job/Floodgate/job/master/lastSuccessfulBuild/artifact/spigot/target/floodgate-spigot.jar", "floodgate-spigot.jar")""")
+    plugins.jenkins_download("https://ci.opencollab.dev/job/GeyserMC/job/Floodgate/job/master/lastSuccessfulBuild/artifact/spigot/target/floodgate-spigot.jar", "floodgate-spigot.jar")
+            """)
             from pluginpack import plugins
             plugins.github_downloader("https://api.github.com/repos/webbukkit/dynmap/releases", "Dynmap.jar")
             plugins.github_downloader("https://api.github.com/repos/PryPurity/WorldBorder/releases", "WorldBorder.jar")
@@ -130,8 +134,7 @@ WantedBy=multi-user.target
             """)
 
         def update_server():
-            open("./update-server." + type_of_os + "",
-                "w+").write("""java -jar BuildTools.jar --rev """ + version)
+            open("./update-server." + type_of_os, "w+").write("""java -jar BuildTools.jar --rev """ + version)
 
 
         def make_main_world():
@@ -146,7 +149,7 @@ systemctl daemon-reload
 systemctl start minecraft.service
 systemctl enable minecraft.service
                 """)
-        def backup():
+        def backups():
             folder_check = os.path.exists(pwd + "/backups") 
             if not folder_check:
                 path = os.path.join(pwd, "backups")
@@ -192,7 +195,10 @@ find """ + pwd + """/backups/ -type f -mtime +7 -name '*.gz' -delete
             service_file()
             make_main_world()
             update_server() 
-            if                    
+            if bool(rcon):
+                rcon_install()
+            if backup:
+                backups()    
         else:
             update_server()
                
@@ -206,7 +212,7 @@ find """ + pwd + """/backups/ -type f -mtime +7 -name '*.gz' -delete
         else:
             start_server = input("Would you like to start the server? [y/N]") or "n"
         
-        if pluginpack or debug:
+        if pluginpack:
             plugin_pack_script_gen()
         # Auto start server
         if start_server == "y":
@@ -216,7 +222,6 @@ find """ + pwd + """/backups/ -type f -mtime +7 -name '*.gz' -delete
                 cmd("start.bat")
         else:
             print("You can start the server with ./start." + type_of_os)
-            print(version)
 
 
     if __name__ == '__main__':
