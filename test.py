@@ -1,35 +1,41 @@
 import os
-import json
-import requests
+from os import system as cmd
 
 pwd = str(os.getcwd())
-class plugins():
-    def github_downloader(url, name, sub=1):
-        folder_check = os.path.exists(pwd + "/plugins") 
-        if folder_check:
-            print("Folder already exist")
-        else:
-            path = os.path.join(pwd, "plugins")
-            os.mkdir(path)
-        dynmap_response = requests.get(url)
-        data = dynmap_response.json()
-        spigot_number = len(data[1]['assets'])
-        download_link = data[1]['assets'][spigot_number - sub]['browser_download_url']
-        open(pwd + "/plugins/" + name, 'wb').write(requests.get(download_link).content)
-    def github_downloader_sr(url, name,):
-        folder_check = os.path.exists(pwd + "/plugins") 
-        if folder_check:
-            print("Folder already exist")
-        else:
-            path = os.path.join(pwd, "plugins")
-            os.mkdir(path)
-        dynmap_response = requests.get(url)
-        data = dynmap_response.json()
-        download_link = data[0]['assets'][0]['browser_download_url']
-        open(pwd + "/plugins/" + name, 'wb').write(requests.get(download_link).content)
 
-if __name__ == '__main__':
-    plugins.github_downloader("https://api.github.com/repos/webbukkit/dynmap/releases", "Dynmap.jar")
-    plugins.github_downloader("https://api.github.com/repos/PryPurity/WorldBorder/releases", "WorldBorder.jar")
-    plugins.github_downloader("https://api.github.com/repos/EssentialsX/Essentials/releases", "EssentialsX.jar", 8 )
-    plugins.github_downloader_sr("https://api.github.com/repos/TIBTHINK/payRespect/releases", "PayRespect.jar")
+def backup():
+    folder_check = os.path.exists(pwd + "/backups") 
+    if not folder_check:
+        path = os.path.join(pwd, "backups")
+        os.mkdir(path)
+
+    open(pwd + "/backup.sh", 'w+').write("""#!/bin/bash
+
+function rcon {
+  mcrcon -H 127.0.0.1 -P 25575 -p """ + password + """ "$1"
+}
+
+rcon "save-off"
+rcon "save-all"
+tar -cvpzf """ + pwd + """/backups/server-$(date +%F-%H-%M).tar.gz """ + pwd + """
+rcon "save-on"
+
+## Delete older backups
+find """ + pwd + """/backups/ -type f -mtime +7 -name '*.gz' -delete
+            
+            
+            
+            """)
+
+def rcon_install():
+  # Downloads and installs mcrcon
+  cmd("git clone https://github.com/Tiiffi/mcrcon") 
+  os.chdir('./mcrcon')
+  cmd("make")
+  cmd("cp mcrcon /usr/bin/mcrcon")
+  open(pwd + "terminal.sh", 'w').write("mcrcon -H 127.0.0.1 -P 25575 -p """ + password + """ -t")
+
+
+
+# rcon_install()
+backup("test")

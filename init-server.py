@@ -43,6 +43,7 @@ try:
     @click.option("-r", "--ram", default=2048, prompt="How much ram would you like the server to use", help="Set how much allocated ram to the server")
     @click.option("-p", "--port", default=25565, prompt="Which port do you want the server to be on", help="Set what port you want the server to run on")
     @click.option("-s", "--service", is_flag=False, flag_value="minecraft", default="minecraft", help="Sets the service name(Optional)")
+    #@click.option("-r", "--rcon", is_flag=False, flag_value=)
     @click.option("-P", "--pluginpack", is_flag=True, flag_value=True, help="Generates a script of essential spigot plugins(Optional)")
     @click.option("-y", "--yes", is_flag=True, flag_value=True, help="Says yes to autostarting the server")
     @click.option("-d", "--debug", is_flag=True, flag_value=True, help="Enables debug mode")
@@ -127,14 +128,6 @@ ExecReload=/usr/bin/mcrcon -H 127.0.0.1 -P 25575 -p password restart
 [Install]
 WantedBy=multi-user.target
             """)
-        # def mcron_setup():
-
-        #     cmd("git clone https://github.com/Tiiffi/mcrcon.git mcrcon")
-        #     cmd("cd mcron")
-        #     cmd("make")
-        #     cmd("sudo make install")
-        #     cmd("cd " + pwd)
-
 
         def update_server():
             open("./update-server." + type_of_os + "",
@@ -153,7 +146,39 @@ systemctl daemon-reload
 systemctl start minecraft.service
 systemctl enable minecraft.service
                 """)
+        def backup():
+            folder_check = os.path.exists(pwd + "/backups") 
+            if not folder_check:
+                path = os.path.join(pwd, "backups")
+                os.mkdir(path)
 
+            open(pwd + "/backup.sh", 'w+').write("""#!/bin/bash
+
+function rcon {
+mcrcon -H 127.0.0.1 -P 25575 -p """ + password + """ "$1"
+}
+
+rcon "save-off"
+rcon "save-all"
+tar -cvpzf """ + pwd + """/backups/server-$(date +%F-%H-%M).tar.gz """ + pwd + """
+rcon "save-on"
+
+## Delete older backups
+find """ + pwd + """/backups/ -type f -mtime +7 -name '*.gz' -delete
+                
+                
+                
+                """)
+
+        def rcon_install():
+        # Downloads and installs mcrcon
+            cmd("git clone https://github.com/Tiiffi/mcrcon") 
+            os.chdir('./mcrcon')
+            cmd("make")
+            cmd("cp mcrcon /usr/bin/mcrcon")
+            open(pwd + "terminal.sh", 'w').write("mcrcon -H 127.0.0.1 -P 25575 -p " + password + " -t")
+
+        # It is indented correctly, dont try to fix it
         print("Checking if BuildTools in installed")
         if not os.path.isfile("BuildTools.jar"):
             print("###DOWNLOADING REQUIRED FILES###")
@@ -190,10 +215,12 @@ systemctl enable minecraft.service
                 cmd("start.bat")
         else:
             print("You can start the server with ./start." + type_of_os)
+            print(version)
 
 
     if __name__ == '__main__':
         main()
+
     
 
 except KeyboardInterrupt:
