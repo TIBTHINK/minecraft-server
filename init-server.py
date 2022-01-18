@@ -43,7 +43,7 @@ try:
     @click.option("-r", "--ram", default=2048, prompt="How much ram would you like the server to use", help="Set how much allocated ram to the server")
     @click.option("-p", "--port", default=25565, prompt="Which port do you want the server to be on", help="Set what port you want the server to run on")
     @click.option("-s", "--service", is_flag=False, flag_value="minecraft", default="minecraft", help="Sets the service name(Optional)")
-    #@click.option("-r", "--rcon", is_flag=False, flag_value=)
+    @click.option("-r", "--rcon", is_flag=False, flag_value="Password")
     @click.option("-P", "--pluginpack", is_flag=True, flag_value=True, help="Generates a script of essential spigot plugins(Optional)")
     @click.option("-y", "--yes", is_flag=True, flag_value=True, help="Says yes to autostarting the server")
     @click.option("-d", "--debug", is_flag=True, flag_value=True, help="Enables debug mode")
@@ -191,7 +191,8 @@ find """ + pwd + """/backups/ -type f -mtime +7 -name '*.gz' -delete
         if type_of_os == "sh" or debug:
             service_file()
             make_main_world()
-            update_server()                    
+            update_server() 
+            if                    
         else:
             update_server()
                
