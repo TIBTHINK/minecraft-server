@@ -52,12 +52,19 @@ try:
 
     def main(version, cores, ram, port, service, pluginpack, yes, debug, rcon, backup):
 
+        if type_of_os == "bat":
+            if not bool(rcon):
+                exit("Rcon isnt supported on your machine")
+            elif backup:
+                exit("Backups are not supported on your machine")
+            elif not bool(service):
+                exit("Service file isnt supported on your machine")
+
         password = rcon
         if SECRET_KEY or debug:
             user = 'minecraft'
         else:
-            user = 'minecraft'
-            # user = os.getlogin()
+            user = os.getlogin()
 
         def plugin_pack_script_gen():
             open(pwd + "/pluginpack.py", 'w+').write("""# Yes i know, i could find a way to get the name of the jar file,
@@ -183,6 +190,7 @@ find """ + pwd + """/backups/ -type f -mtime +7 -name '*.gz' -delete
             os.chdir('../')
             open(pwd + "terminal.sh", 'w').write("mcrcon -H 127.0.0.1 -P 25575 -p " + password + " -t")
 
+
         # It is indented correctly, dont try to fix it
         print("Checking if BuildTools in installed")
         if not os.path.isfile("BuildTools.jar"):
@@ -193,7 +201,7 @@ find """ + pwd + """/backups/ -type f -mtime +7 -name '*.gz' -delete
         open("start." + type_of_os + "", "w+").write("java -server -XX:ParallelGCThreads=" + str(cores) + " -Xms256M -Xmx" + str(ram) + "M -jar " + pwd +  "/spigot-" + version + ".jar nogui ")
         open("server.properties", "w+").write("server-port=" + str(port) + "")
         # checking if this server supports custom scripts
-        if type_of_os == "sh" or debug:
+        if type_of_os == "sh":
             service_file()
             make_main_world()
             update_server() 
