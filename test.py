@@ -1,10 +1,20 @@
-# Yes i know, i could find a way to get the name of the jar file,
-# but i am not motivated to give a fuck about it so you guys just
-# have to deal with the lazyness 
 import os
 import json
 import requests
 pwd = str(os.getcwd())
+from os import system as cmd
+import platform
+import sys
+
+def compute():
+    plugins.jenkins_download("https://ci.opencollab.dev/job/GeyserMC/job/Floodgate/job/master/lastSuccessfulBuild/artifact/spigot/target/floodgate-spigot.jar", "floodgate-spigot.jar")
+    plugins.jenkins_download("https://ci.opencollab.dev//job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/spigot/target/Geyser-Spigot.jar", "Geyser_Spigot.jar")
+    plugins.github_downloader_sr("https://api.github.com/repos/TIBTHINK/payRespect/releases", "PayRespect.jar")
+    plugins.github_downloader("https://api.github.com/repos/EssentialsX/Essentials/releases", "EssentialsX.jar", 8 )
+    plugins.github_downloader("https://api.github.com/repos/PryPurity/WorldBorder/releases", "WorldBorder.jar")
+    plugins.github_downloader("https://api.github.com/repos/webbukkit/dynmap/releases", "Dynmap.jar")
+    yield 
+
 class plugins():
     # This is for repos with more than one release version
     def github_downloader(url, name, sub=1):
@@ -33,18 +43,8 @@ class plugins():
             path = os.path.join(pwd, "plugins")
             os.mkdir(path)         
         open(pwd + "/plugins/" + name, 'wb').write(requests.get(url).content)
+from alive_progress import alive_bar
 
-if __name__ == '__main__':
-        print("[Downloading] |>                                      | 0%")
-        plugins.github_downloader("https://api.github.com/repos/webbukkit/dynmap/releases", "Dynmap.jar")
-        print("[Downloading] | ======>                               | 16.6%")
-        plugins.github_downloader("https://api.github.com/repos/PryPurity/WorldBorder/releases", "WorldBorder.jar")
-        print("[Downloading] | ============>                         | 33.2%")
-        plugins.github_downloader("https://api.github.com/repos/EssentialsX/Essentials/releases", "EssentialsX.jar", 8 )
-        print("[Downloading] | ==================>                   | 49.8%")
-        plugins.github_downloader_sr("https://api.github.com/repos/TIBTHINK/payRespect/releases", "PayRespect.jar")
-        print("[Downloading] | ========================>             | 66.4%")
-        plugins.jenkins_download("https://ci.opencollab.dev//job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/spigot/target/Geyser-Spigot.jar", "Geyser_Spigot.jar")
-        print("[Downloading] | ==============================>       | 83%")
-        plugins.jenkins_download("https://ci.opencollab.dev/job/GeyserMC/job/Floodgate/job/master/lastSuccessfulBuild/artifact/spigot/target/floodgate-spigot.jar", "floodgate-spigot.jar")
-        print("[Downloading] | ====================================> | 100%")
+with alive_bar(6) as bar:
+    for i in compute():
+        bar()
