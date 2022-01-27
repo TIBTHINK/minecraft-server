@@ -64,4 +64,4 @@ if __name__ == '__main__':
         print("\r[Downloading] | ==============================>       | 83.0% | 5/6", end='', flush=True)
         plugins.jenkins_download("https://ci.opencollab.dev/job/GeyserMC/job/Floodgate/job/master/lastSuccessfulBuild/artifact/spigot/target/floodgate-spigot.jar", "floodgate-spigot.jar")
         sys.stdout.flush()
-        print("\r[Downloading] | ====================================> | 100% | 6/6", end='\n', flush=True)
+        print("\r[Downloading] | ====================================> |  100% | 6/6", end='\n', flush=True)
