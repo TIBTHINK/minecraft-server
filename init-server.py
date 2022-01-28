@@ -51,7 +51,7 @@ try:
 
 
     def main(version, cores, ram, port, service, pluginpack, yes, debug, rcon, backup):
-
+        # Checks if rcon, backup or service is called on a non linux machine
         if type_of_os == "bat":
             if not bool(rcon):
                 exit("Rcon isnt supported on your machine")
@@ -67,8 +67,8 @@ try:
             user = os.getlogin()
 
         def plugin_pack_script_gen():
-            with open(pwd + "/pluginpack.py", 'w+') as f
-            open(pwd + "/pluginpack.py", 'w+').write(b'''# Yes i know, i could find a way to get the name of the jar file,
+            rtrn = "\r"
+            open(pwd + "/pluginpack.py", 'w+').write('''# Yes i know, i could find a way to get the name of the jar file,
 # but i am not motivated to give a fuck about it so you guys just
 # have to deal with the lazyness 
 import os
@@ -79,12 +79,6 @@ from os import system as cmd
 import platform
 import sys
 
-def clear():
-    system = platform.system()
-    if system == "Windows":
-        cmd("cls")
-    else:
-        cmd("clear")
 
 class plugins():
     # This is for repos with more than one release version
@@ -116,25 +110,25 @@ class plugins():
         open(pwd + "/plugins/" + name, 'wb').write(requests.get(url).content)
 
 if __name__ == '__main__':
-        print('\r[Downloading] | >                                     | 0% | 0/6', end='', flush=True)
+        print('[Downloading] | >                                     | 0% | 0/6', end='', flush=True)
         plugins.github_downloader("https://api.github.com/repos/webbukkit/dynmap/releases", "Dynmap.jar")
         sys.stdout.flush()
-        print('\r[Downloading] | ======>                               | 16.6% | 1/6', end='', flush=True)
+        print('[Downloading] | ======>                               | 16.6% | 1/6', end='', flush=True)
         plugins.github_downloader("https://api.github.com/repos/PryPurity/WorldBorder/releases", "WorldBorder.jar")
         sys.stdout.flush()
-        print("\r[Downloading] | ============>                         | 33.2% | 2/6", end='', flush=True)
+        print("[Downloading] | ============>                         | 33.2% | 2/6", end='', flush=True)
         plugins.github_downloader("https://api.github.com/repos/EssentialsX/Essentials/releases", "EssentialsX.jar", 8 )
         sys.stdout.flush()
-        print("\r[Downloading] | ==================>                   | 49.8% | 3/6", end='', flush=True)
+        print("[Downloading] | ==================>                   | 49.8% | 3/6", end='', flush=True)
         plugins.github_downloader_sr("https://api.github.com/repos/TIBTHINK/payRespect/releases", "PayRespect.jar")
         sys.stdout.flush()
-        print("\r[Downloading] | ========================>             | 66.4% | 4/6", end='', flush=True)
+        print("[Downloading] | ========================>             | 66.4% | 4/6", end='', flush=True)
         plugins.jenkins_download("https://ci.opencollab.dev//job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/spigot/target/Geyser-Spigot.jar", "Geyser_Spigot.jar")
         sys.stdout.flush()
-        print("\r[Downloading] | ==============================>       | 83.0% | 5/6", end='', flush=True)
+        print("[Downloading] | ==============================>       | 83.0% | 5/6", end='', flush=True)
         plugins.jenkins_download("https://ci.opencollab.dev/job/GeyserMC/job/Floodgate/job/master/lastSuccessfulBuild/artifact/spigot/target/floodgate-spigot.jar", "floodgate-spigot.jar")
         sys.stdout.flush()
-        print("\r[Downloading] | ====================================> |  100% | 6/6", end='\n', flush=True)
+        print("[Downloading] | ====================================> |  100% | 6/6", end='\n', flush=True)
             ''')
             from pluginpack import plugins
             plugins.github_downloader("https://api.github.com/repos/webbukkit/dynmap/releases", "Dynmap.jar")
