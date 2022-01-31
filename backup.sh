@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function rcon {
-mcrcon -H 127.0.0.1 -P 25575 -p 2240 "$1"
+mcrcon -H 127.0.0.1 -P 25575 -p password "$1"
 }
 
 rcon "save-off"

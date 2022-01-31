@@ -91,5 +91,6 @@ docker run -d \
 Detect if requirements are met \
 Docker file/image \
 Installing correct libray for 1.17+ \
-Have plugin pack find the file name automaticly 
+Have plugin pack find the file name automaticly \
+Installing plugins from spigot, github and bukkit website.
 

@@ -64,11 +64,11 @@ try:
         if SECRET_KEY or debug:
             user = 'minecraft'
         else:
-            user = os.getlogin()
+            # user = os.getlogin()
+            user = 'minecraft'
 
         def plugin_pack_script_gen():
-            rtrn = "\r"
-            open(pwd + "/pluginpack.py", 'w+').write('''# Yes i know, i could find a way to get the name of the jar file,
+            open(pwd + "/pluginpack.py", 'w+').write("""# Yes i know, i could find a way to get the name of the jar file,
 # but i am not motivated to give a fuck about it so you guys just
 # have to deal with the lazyness 
 import os
@@ -110,33 +110,47 @@ class plugins():
         open(pwd + "/plugins/" + name, 'wb').write(requests.get(url).content)
 
 if __name__ == '__main__':
-        print('[Downloading] | >                                     | 0% | 0/6', end='', flush=True)
+        print('[Downloading] | >                                     | 0% | 0/6\\r', end='', flush=True)
         plugins.github_downloader("https://api.github.com/repos/webbukkit/dynmap/releases", "Dynmap.jar")
         sys.stdout.flush()
-        print('[Downloading] | ======>                               | 16.6% | 1/6', end='', flush=True)
+        print('[Downloading] | ======>                               | 16.6% | 1/6\\r', end='', flush=True)
         plugins.github_downloader("https://api.github.com/repos/PryPurity/WorldBorder/releases", "WorldBorder.jar")
         sys.stdout.flush()
-        print("[Downloading] | ============>                         | 33.2% | 2/6", end='', flush=True)
+        print('[Downloading] | ============>                         | 33.2% | 2/6\\r', end='', flush=True)
         plugins.github_downloader("https://api.github.com/repos/EssentialsX/Essentials/releases", "EssentialsX.jar", 8 )
         sys.stdout.flush()
-        print("[Downloading] | ==================>                   | 49.8% | 3/6", end='', flush=True)
+        print('[Downloading] | ==================>                   | 49.8% | 3/6\\r', end='', flush=True)
         plugins.github_downloader_sr("https://api.github.com/repos/TIBTHINK/payRespect/releases", "PayRespect.jar")
         sys.stdout.flush()
-        print("[Downloading] | ========================>             | 66.4% | 4/6", end='', flush=True)
+        print('[Downloading] | ========================>             | 66.4% | 4/6\\r', end='', flush=True)
         plugins.jenkins_download("https://ci.opencollab.dev//job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/spigot/target/Geyser-Spigot.jar", "Geyser_Spigot.jar")
         sys.stdout.flush()
-        print("[Downloading] | ==============================>       | 83.0% | 5/6", end='', flush=True)
+        print('[Downloading] | ==============================>       | 83.0% | 5/6\\r', end='', flush=True)
         plugins.jenkins_download("https://ci.opencollab.dev/job/GeyserMC/job/Floodgate/job/master/lastSuccessfulBuild/artifact/spigot/target/floodgate-spigot.jar", "floodgate-spigot.jar")
         sys.stdout.flush()
-        print("[Downloading] | ====================================> |  100% | 6/6", end='\n', flush=True)
-            ''')
+        print('[Downloading] | ====================================> |  100% | 6/6\\n', end='', flush=True)
+            """)
             from pluginpack import plugins
+            print("### DOWNLOADING PLUGINS ###")
+            print('[Downloading] | >                                     | 0% | 0/6\r', end='', flush=True)
             plugins.github_downloader("https://api.github.com/repos/webbukkit/dynmap/releases", "Dynmap.jar")
+            sys.stdout.flush()
+            print('[Downloading] | ======>                               | 16.6% | 1/6\r', end='', flush=True)
             plugins.github_downloader("https://api.github.com/repos/PryPurity/WorldBorder/releases", "WorldBorder.jar")
+            sys.stdout.flush()
+            print('[Downloading] | ============>                         | 33.2% | 2/6\r', end='', flush=True)
             plugins.github_downloader("https://api.github.com/repos/EssentialsX/Essentials/releases", "EssentialsX.jar", 8 )
+            sys.stdout.flush()
+            print('[Downloading] | ==================>                   | 49.8% | 3/6\r', end='', flush=True)
             plugins.github_downloader_sr("https://api.github.com/repos/TIBTHINK/payRespect/releases", "PayRespect.jar")
+            sys.stdout.flush()
+            print('[Downloading] | ========================>             | 66.4% | 4/6\r', end='', flush=True)
             plugins.jenkins_download("https://ci.opencollab.dev//job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/spigot/target/Geyser-Spigot.jar", "Geyser_Spigot.jar")
+            sys.stdout.flush()
+            print('[Downloading] | ==============================>       | 83.0% | 5/6\r', end='', flush=True)
             plugins.jenkins_download("https://ci.opencollab.dev/job/GeyserMC/job/Floodgate/job/master/lastSuccessfulBuild/artifact/spigot/target/floodgate-spigot.jar", "floodgate-spigot.jar")
+            sys.stdout.flush()
+            print('[Downloading] | ====================================> |  100% | 6/6\n', end='', flush=True)
 
 
         def service_file():
@@ -232,8 +246,11 @@ find """ + pwd + """/backups/ -type f -mtime +7 -name '*.gz' -delete
             update_server()
                
         cmd("java -jar BuildTools.jar --rev " + version)
+        if pluginpack:
+            plugin_pack_script_gen()
+
         # Listen, we dont like no docker containers
-        # Checks to understand what to do
+        # Checks if script is running in a docker container
         if SECRET_KEY:
             start_server = "n"
         elif yes:
@@ -241,8 +258,7 @@ find """ + pwd + """/backups/ -type f -mtime +7 -name '*.gz' -delete
         else:
             start_server = input("Would you like to start the server? [y/N]") or "n"
         
-        if pluginpack:
-            plugin_pack_script_gen()
+
         # Auto start server
         if start_server == "y":
             if type_of_os == "sh":
