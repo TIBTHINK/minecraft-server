@@ -64,8 +64,7 @@ try:
         if SECRET_KEY or debug:
             user = 'minecraft'
         else:
-            # user = os.getlogin()
-            user = 'minecraft'
+            user = os.getlogin()
 
         def plugin_pack_script_gen():
             open(pwd + "/pluginpack.py", 'w+').write("""# Yes i know, i could find a way to get the name of the jar file,
