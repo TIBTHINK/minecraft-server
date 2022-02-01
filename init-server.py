@@ -226,7 +226,7 @@ find """ + pwd + """/backups/ -type f -mtime +7 -name '*.gz' -delete
         # It is indented correctly, dont try to fix it
         print("Checking if BuildTools in installed")
         if not os.path.isfile("BuildTools.jar"):
-            print("###DOWNLOADING REQUIRED FILES###")
+            print("### DOWNLOADING BUILDTOOLS ###")
             open(pwd + "/BuildTools.jar", 'wb').write(requests.get("https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar").content)
         # Auto accpeting eula, making a sick start script and setting custom ports
         open("eula.txt", "w+").write("eula=true")

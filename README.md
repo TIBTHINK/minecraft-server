@@ -25,7 +25,7 @@ Debain based OS supported
 Command line configuration \
 Plugin pack script generator\
 Install of mcron \
-backup setup
+Backup setup 
 
 ## Command line configuration
 you can easly find out the command line config by typing
@@ -88,9 +88,10 @@ docker run -d \
 
 ## Going to be added to the script
 
-Detect if requirements are met \
-Docker file/image \
-Installing correct libray for 1.17+ \
-Have plugin pack find the file name automaticly \
-Installing plugins from spigot, github and bukkit website.
+Detect if requirements are met. \
+Docker file/image. \
+Installing correct libray for 1.17+. \
+Have plugin pack find the file name automaticly. \
+Installing plugins from spigot, github and bukkit website. \
+Plugin package manager
 
