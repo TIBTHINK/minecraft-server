@@ -12,7 +12,9 @@ import multiprocessing
 import sys
 import click
 import subprocess
+from datetime import date
 
+today = date.today()
 pwd = os.getcwd()
 
 response = requests.get("https://launchermeta.mojang.com/mc/game/version_manifest.json")
@@ -56,8 +58,6 @@ try:
         if type_of_os == "bat":
             if not bool(rcon):
                 exit("Rcon isnt supported on your machine")
-            elif backup:
-                exit("Backups are not supported on your machine")
             elif not bool(service):
                 exit("Service file isnt supported on your machine")
 
@@ -195,6 +195,14 @@ systemctl enable minecraft.service
             if not folder_check:
                 path = os.path.join(pwd, "backups")
                 os.mkdir(path)
+
+            if type_of_os == "bat" or debug:
+                open(pwd + "\\backup.bat", 'w+').write("""@echo on
+                echo ### Backing up ###" 
+                powershell Compress-Archive """ + pwd + """\ """+ pwd +"""\\backups\Server-""" + today.strftime("%d/%m/%Y") + """.zip
+                
+                
+                """)
 
             open(pwd + "/backup.sh", 'w+').write("""#!/bin/bash
 
