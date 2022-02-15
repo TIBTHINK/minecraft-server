@@ -240,13 +240,11 @@ find """ + pwd + """/backups/ -type f -mtime +7 -name '*.gz' -delete
         # Auto accpeting eula, making a sick start script and setting custom ports
         open("eula.txt", "w+").write("eula=true")
         open("start." + type_of_os, "w+").write("java -server -XX:ParallelGCThreads=" + str(cores) + " -Xms256M -Xmx" + str(ram) + "M -jar " + pwd +  "/spigot-" + version + ".jar nogui ")
-        open("server.properties", "w+").write("""server-port=""" + str(port) 
+        open("server.properties", "w+").write("server-port=" + str(port) + "\n")
         if bool(rcon):
-            """
-rcon.port=25575
-rcon.password=""" + rcon + """"
-enable-rcon=true
-            """)
+            open("server.properties", "w+").write("""rcon.port=25575\n
+rcon.password=""" + rcon + """"\n
+enable-rcon=true\n""")
 
 
 
@@ -273,7 +271,7 @@ enable-rcon=true
         elif yes:
             start_server = "y"
         else:
-            start_server = input("Would you like to start the server? [y/N]") or "n"
+            start_server = input("Would you like to start the server? [y/N] ") or "n"
         
 
         # Auto start server
