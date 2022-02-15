@@ -229,7 +229,7 @@ find """ + pwd + """/backups/ -type f -mtime +7 -name '*.gz' -delete
             cmd("make")
             cmd("cp mcrcon /usr/bin/mcrcon")
             os.chdir('../')
-            open(pwd + "terminal.sh", 'w').write("mcrcon -H 127.0.0.1 -P 25575 -p " + password + " -t")
+            open(pwd + "/terminal.sh", 'w').write("mcrcon -H 127.0.0.1 -P 25575 -p " + password + " -t")
 
 
         # It is indented correctly, dont try to fix it
@@ -239,8 +239,17 @@ find """ + pwd + """/backups/ -type f -mtime +7 -name '*.gz' -delete
             open(pwd + "/BuildTools.jar", 'wb').write(requests.get("https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar").content)
         # Auto accpeting eula, making a sick start script and setting custom ports
         open("eula.txt", "w+").write("eula=true")
-        open("start." + type_of_os + "", "w+").write("java -server -XX:ParallelGCThreads=" + str(cores) + " -Xms256M -Xmx" + str(ram) + "M -jar " + pwd +  "/spigot-" + version + ".jar nogui ")
-        open("server.properties", "w+").write("server-port=" + str(port) + "")
+        open("start." + type_of_os, "w+").write("java -server -XX:ParallelGCThreads=" + str(cores) + " -Xms256M -Xmx" + str(ram) + "M -jar " + pwd +  "/spigot-" + version + ".jar nogui ")
+        open("server.properties", "w+").write("""server-port=""" + str(port) 
+        if bool(rcon):
+            """
+rcon.port=25575
+rcon.password=""" + rcon + """"
+enable-rcon=true
+            """)
+
+
+
         # checking if this server supports custom scripts
         if type_of_os == "sh":
             service_file()
