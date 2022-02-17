@@ -241,10 +241,10 @@ find """ + pwd + """/backups/ -type f -mtime +7 -name '*.gz' -delete
         open("eula.txt", "w+").write("eula=true")
         open("start." + type_of_os, "w+").write("java -server -XX:ParallelGCThreads=" + str(cores) + " -Xms256M -Xmx" + str(ram) + "M -jar " + pwd +  "/spigot-" + version + ".jar nogui ")
         open("server.properties", "w+").write("server-port=" + str(port) + "\n")
-        if bool(rcon):
-            open("server.properties", "w+").write("""rcon.port=25575\n
-rcon.password=""" + rcon + """"\n
-enable-rcon=true\n""")
+#         if bool(rcon):
+#             open("server.properties", "w+").write("""rcon.port=25575\n
+# rcon.password=""" + rcon + """"\n
+# enable-rcon=true\n""")
 
 
 
