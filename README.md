@@ -44,7 +44,7 @@ Options:
   -R, --rcon TEXT      Downloads and installs mcrcon
   -P, --pluginpack     Generates a script of essential spigot
                        plugins(Optional)
-  -y, --yes            Says yes to autostarting the server
+  -y, --yes            Says yes to autostarting the server after setup is done
   -d, --debug          Enables debug mode
   -b, --backup         Sets up a backup script(McRcon is required for backups)
   --help               Show this message and exit.

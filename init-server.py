@@ -48,7 +48,7 @@ try:
     @click.option("-s", "--service", is_flag=False, flag_value="minecraft", default="minecraft", help="Sets the service name(Optional)")
     @click.option("-R", "--rcon", is_flag=False, flag_value="Password", default="change-to-a-better-password", help="Downloads and installs mcrcon")
     @click.option("-P", "--pluginpack", is_flag=True, flag_value=True, help="Generates a script of essential spigot plugins(Optional)")
-    @click.option("-y", "--yes", is_flag=True, flag_value=True, help="Says yes to autostarting the server")
+    @click.option("-y", "--yes", is_flag=True, flag_value=True, help="Says yes to autostarting the server after setup is done")
     @click.option("-d", "--debug", is_flag=True, flag_value=True, help="Enables debug mode")
     @click.option("-b", "--backup", is_flag=True, flag_value=True, help="Sets up a backup script(McRcon is required for backups)")
 
