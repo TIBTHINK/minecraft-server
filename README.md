@@ -28,6 +28,7 @@ Install of mcron \
 Backup setup 
 
 ## Command line configuration
+### If left blank you will be prompted with the basic setup
 you can easly find out the command line config by typing
 
 ``` bash
