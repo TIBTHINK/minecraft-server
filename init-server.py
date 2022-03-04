@@ -51,9 +51,9 @@ try:
     @click.option("-y", "--yes", is_flag=True, flag_value=True, help="Says yes to autostarting the server after setup is done")
     @click.option("-d", "--debug", is_flag=True, flag_value=True, help="Enables debug mode")
     @click.option("-b", "--backup", is_flag=True, flag_value=True, help="Sets up a backup script(McRcon is required for backups)")
+    @click.option("-C", "--clean", is_flag=True, flag_value=True, help="Reverts back to a clean slate")
 
-
-    def main(version, cores, ram, port, service, pluginpack, yes, debug, rcon, backup):
+    def main(version, cores, ram, port, service, pluginpack, yes, debug, rcon, backup, clean):
         # Checks if rcon, backup or service is called on a non linux machine
         if type_of_os == "bat":
             if not bool(rcon):
@@ -66,6 +66,9 @@ try:
             user = 'minecraft'
         else:
             user = os.getlogin()
+
+        if clean:
+            
 
         def plugin_pack_script_gen():
             open(pwd + "/pluginpack.py", 'w+').write("""# Yes i know, i could find a way to get the name of the jar file,
