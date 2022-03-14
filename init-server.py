@@ -44,6 +44,8 @@ try:
     @click.option("-v", "--version", is_flag=False, flag_value=latest_release, default=latest_release, help="Choose what version of the game(Defult: " + latest_release + ")")
     @click.option("-p", "--port", default=25565, is_flag=False, flag_value=25565, help="Set what port you want the server to run on")
     @click.option("-s", "--service", is_flag=False, flag_value="minecraft", default="minecraft", help="Sets the service name(Optional)")
+    @click.option("-c", "--cores", default=core_count, prompt="How many cores do you want to give to the server: ", help="Set how many cores you want the server to use")
+    @click.option("-r", "--ram", default=2048, prompt="How much ram would you like the server to use", help="Set how much allocated ram to the server")
     @click.option("-R", "--rcon", is_flag=False, flag_value="Password", default="change-to-a-better-password", help="Downloads and installs mcrcon")
     @click.option("-P", "--pluginpack", is_flag=True, flag_value=True, help="Generates a script of essential spigot plugins(Optional)")
     @click.option("-y", "--yes", is_flag=True, flag_value=True, help="Says yes to autostarting the server after setup is done")
