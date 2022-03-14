@@ -5,11 +5,11 @@ A few scrips to setup a spigot server in a jif
 All you need to run this program is python3 and the java dev kit
 Debain based installs
 ``` bash
-sudo apt install git openjdk-17-jre-headless python3
+sudo apt install git openjdk-17-jre-headless python3 python3-pip
 ```
 Arch based installs
 ```bash
-sudo pacman -Sy git jre8-openjdk-headless python3 gcc
+sudo pacman -Sy git jre8-openjdk-headless python gcc python-pip
 ```
 
 ## what does this script do?

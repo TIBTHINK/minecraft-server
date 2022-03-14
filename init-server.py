@@ -42,18 +42,18 @@ try:
   
     @click.command()
     @click.option("-v", "--version", is_flag=False, flag_value=latest_release, default=latest_release, help="Choose what version of the game(Defult: " + latest_release + ")")
-    @click.option("-c", "--cores", default=core_count, prompt="How many cores do you want to give to the server: ", help="Set how many cores you want the server to use")
-    @click.option("-r", "--ram", default=2048, prompt="How much ram would you like the server to use", help="Set how much allocated ram to the server")
-    @click.option("-p", "--port", default=25565, prompt="Which port do you want the server to be on", help="Set what port you want the server to run on")
+    @click.option("-p", "--port", default=25565, is_flag=False, flag_value=25565, help="Set what port you want the server to run on")
     @click.option("-s", "--service", is_flag=False, flag_value="minecraft", default="minecraft", help="Sets the service name(Optional)")
     @click.option("-R", "--rcon", is_flag=False, flag_value="Password", default="change-to-a-better-password", help="Downloads and installs mcrcon")
     @click.option("-P", "--pluginpack", is_flag=True, flag_value=True, help="Generates a script of essential spigot plugins(Optional)")
     @click.option("-y", "--yes", is_flag=True, flag_value=True, help="Says yes to autostarting the server after setup is done")
     @click.option("-d", "--debug", is_flag=True, flag_value=True, help="Enables debug mode")
     @click.option("-b", "--backup", is_flag=True, flag_value=True, help="Sets up a backup script(McRcon is required for backups)")
-    @click.option("-C", "--clean", is_flag=True, flag_value=True, help="Reverts back to a clean slate")
+    @click.option("-C", "--clean", is_flag=True, flag_value=True, help="Reverts back to a clean slate (THIS WILL REMOVE EVERYTHING THAT ISNT ALREADY IN THE REPO")
 
     def main(version, cores, ram, port, service, pluginpack, yes, debug, rcon, backup, clean):
+
+        
         # Checks if rcon, backup or service is called on a non linux machine
         if type_of_os == "bat":
             if not bool(rcon):
@@ -67,7 +67,38 @@ try:
         else:
             user = os.getlogin()
 
+
         if clean:
+            import shutil
+            import os
+            from os import walk
+            filenames = os.listdir("./")
+            dont_remove_these_files = ["docker-build-test.sh", "docker.sh", "Dockerfile", ".gitignore", "init-server.py", "README.md", "requirements.txt", "test.py", ".git", "Bukkit", "Spigot", "BuildData", "backups", "CraftBukkit", "mcrcon", "work", "__pycache__", "plugins", "apache-maven-3.6.0"]
+            print("###Removing needed files from delete list###")
+            for i in dont_remove_these_files:
+                if i in filenames:
+                    filenames.remove(i)
+                else:
+                    print("File does not exist")
+                # print(filenames)
+
+
+            print(filenames)
+            directory = next(os.walk("./"))[1]
+            directory.remove(".git")
+            clean = True
+
+            if clean:
+                try:
+                    for i in directory:
+                        print("Removing: " + i)
+                        shutil.rmtree(i)
+                    for i in filenames:
+                        print("Removing: " + i)
+                        os.remove(i)
+                except OSError as e:
+                    print("Error: %s : %s" % (directory, e.strerror))
+    
             
 
         def plugin_pack_script_gen():
