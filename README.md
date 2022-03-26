@@ -32,21 +32,24 @@ Backup setup
 you can easly find out the command line config by typing
 
 ``` bash
-tibthink@JARVIS:~/minecraft-server$ python3 init-server.py --help
+╭─tibthink@jarvis ~/minecraft-server  ‹main*› 
+╰─➤  python3 init-server.py --help                                                                                                                                                               2 ↵
 Usage: init-server.py [OPTIONS]
 
 Options:
-  -v, --version TEXT   Choose what version of the game(Defult: 1.18.1)
-  -c, --cores INTEGER  Set how many cores you want the server to use
-  -r, --ram INTEGER    Set how much allocated ram to the server
+  -v, --version TEXT   Choose what version of the game(Defult: 1.18.2)
   -p, --port INTEGER   Set what port you want the server to run on
   -s, --service TEXT   Sets the service name(Optional)
+  -c, --cores INTEGER  Set how many cores you want the server to use
+  -r, --ram INTEGER    Set how much allocated ram to the server
   -R, --rcon TEXT      Downloads and installs mcrcon
   -P, --pluginpack     Generates a script of essential spigot
                        plugins(Optional)
   -y, --yes            Says yes to autostarting the server after setup is done
   -d, --debug          Enables debug mode
   -b, --backup         Sets up a backup script(McRcon is required for backups)
+  -C, --clean          Reverts back to a clean slate (THIS WILL REMOVE
+                       EVERYTHING THAT ISNT ALREADY IN THE REPO)
   --help               Show this message and exit.
 ```
 

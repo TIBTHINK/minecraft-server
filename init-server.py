@@ -43,7 +43,7 @@ latest_release = remove_punct
 try:
   
     @click.command()
-    @click.option("-v", "--version", is_flag=False, flag_value=latest_release, default=latest_release, help="Choose what version of the game(Defult: " + latest_release + ")")
+    @click.option("-v", "--version", is_flag=False, flag_value=False, default=latest_release, help="Choose what version of the game(Defult: " + latest_release + ")")
     @click.option("-p", "--port", default=25565, is_flag=False, flag_value=25565, help="Set what port you want the server to run on")
     @click.option("-s", "--service", is_flag=False, flag_value="minecraft", default="minecraft", help="Sets the service name(Optional)")
     @click.option("-c", "--cores", default=core_count, is_flag=False, flag_value=core_count, help="Set how many cores you want the server to use")
@@ -53,9 +53,10 @@ try:
     @click.option("-y", "--yes", is_flag=True, flag_value=True, help="Says yes to autostarting the server after setup is done")
     @click.option("-d", "--debug", is_flag=True, flag_value=True, help="Enables debug mode")
     @click.option("-b", "--backup", is_flag=True, flag_value=True, help="Sets up a backup script(McRcon is required for backups)")
-    @click.option("-C", "--clean", is_flag=True, flag_value=True, help="Reverts back to a clean slate (THIS WILL REMOVE EVERYTHING THAT ISNT ALREADY IN THE REPO")
+    @click.option("-C", "--clean", is_flag=True, flag_value=True, help="Reverts back to a clean slate (THIS WILL REMOVE EVERYTHING THAT ISNT ALREADY IN THE REPO)")
+    @click.option("-i", "--interactive", is_flag=True, flag_value=True, help="Enables interactive mode")
 
-    def main(version, cores, ram, port, service, pluginpack, yes, debug, rcon, backup, clean):
+    def main(version, cores, ram, port, service, pluginpack, yes, debug, rcon, backup, clean, interactive):
 
         
         # Checks if rcon, backup or service is called on a non linux machine
@@ -100,7 +101,8 @@ try:
                         os.remove(i)
                 except OSError as e:
                     print("Error: %s : %s" % (directory, e.strerror))
-    
+        # if interactive:
+
             
 
         def plugin_pack_script_gen():
@@ -204,8 +206,8 @@ PrivateDevices=true
 NoNewPrivileges=true
 WorkingDirectory=""" + pwd + """
 ExecStart= /usr/bin/bash """ + pwd +"""/start.sh
-ExecStop=/usr/bin/mcrcon -H 127.0.0.1 -P 25575 -p password stop
-ExecReload=/usr/bin/mcrcon -H 127.0.0.1 -P 25575 -p password restart
+ExecStop=/usr/bin/mcrcon -H 127.0.0.1 -P 25575 -p """+ password +"""  stop
+ExecReload=/usr/bin/mcrcon -H 127.0.0.1 -P 25575 -p """+ password +""" restart
 [Install]
 WantedBy=multi-user.target
             """)
@@ -267,58 +269,61 @@ find """ + pwd + """/backups/ -type f -mtime +7 -name '*.gz' -delete
             os.chdir('../')
             open(pwd + "/terminal.sh", 'w').write("mcrcon -H 127.0.0.1 -P 25575 -p " + password + " -t")
 
+        if not bool(version) and not bool(cores) and not bool(ram):
 
-        # It is indented correctly, dont try to fix it
-        print("Checking if BuildTools in installed")
-        if not os.path.isfile("BuildTools.jar"):
-            print("### DOWNLOADING BUILDTOOLS ###")
-            open(pwd + "/BuildTools.jar", 'wb').write(requests.get("https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar").content)
-        # Auto accpeting eula, making a sick start script and setting custom ports
-        open("eula.txt", "w+").write("eula=true")
-        open("start." + type_of_os, "w+").write("java -server -XX:ParallelGCThreads=" + str(cores) + " -Xms256M -Xmx" + str(ram) + "M -jar " + pwd +  "/spigot-" + version + ".jar nogui ")
-        open("server.properties", "w+").write("server-port=" + str(port) + "")
-        if bool(rcon):
-            open("server.properties", "w+").write("""\nrcon.port=25575
+            # It is indented correctly, dont try to fix it
+            print("Checking if BuildTools in installed")
+            if not os.path.isfile("BuildTools.jar"):
+                print("### DOWNLOADING BUILDTOOLS ###")
+                open(pwd + "/BuildTools.jar", 'wb').write(requests.get("https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar").content)
+            # Auto accpeting eula, making a sick start script and setting custom ports
+            open("eula.txt", "w+").write("eula=true")
+            open("start." + type_of_os, "w+").write("java -server -XX:ParallelGCThreads=" + str(cores) + " -Xms256M -Xmx" + str(ram) + "M -jar " + pwd +  "/spigot-" + version + ".jar nogui ")
+            open("server.properties", "w+").write("server-port=" + str(port) + "")
+            if bool(rcon):
+                open("server.properties", "w+").write("""\nrcon.port=25575
 rcon.password=""" + rcon + """
 enable-rcon=true""")
 
 
 
-        # checking if this server supports custom scripts
-        if type_of_os == "sh":
-            service_file()
-            make_main_world()
-            update_server() 
-            if bool(rcon):
-                rcon_install()
-            if backup:
-                backups()    
-        else:
-            update_server()
-               
-        cmd("java -jar BuildTools.jar --rev " + version)
-        if pluginpack:
-            plugin_pack_script_gen()
-
-        # Listen, we dont like no docker containers
-        # Checks if script is running in a docker container
-        if SECRET_KEY:
-            start_server = "n"
-        elif yes:
-            start_server = "y"
-        else:
-            start_server = input("Would you like to start the server? [y/N] ") or "n"
-        
-
-        # Auto start server
-        if start_server == "y":
+            # checking if this server supports custom scripts
             if type_of_os == "sh":
-                cmd("bash start.sh")
+                service_file()
+                make_main_world()
+                update_server() 
+                if bool(rcon):
+                    rcon_install()
+                if backup:
+                    backups()    
             else:
-                cmd("start.bat")
-        else:
-            print("You can start the server with ./start." + type_of_os)
+                update_server()
+                
+            cmd("java -jar BuildTools.jar --rev " + version)
+            if pluginpack:
+                plugin_pack_script_gen()
 
+            # Listen, we dont like no docker containers
+            # Checks if script is running in a docker container
+            if SECRET_KEY:
+                start_server = "n"
+            elif yes:
+                start_server = "y"
+            else:
+                start_server = input("Would you like to start the server? [y/N] ") or "n"
+            
+
+            # Auto start server
+            if start_server == "y":
+                if type_of_os == "sh":
+                    cmd("bash start.sh")
+                else:
+                    cmd("start.bat")
+            else:
+                print("You can start the server with ./start." + type_of_os)
+        
+        else:
+            print("")
 
     if __name__ == '__main__':
         main()
