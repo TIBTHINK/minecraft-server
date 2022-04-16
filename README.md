@@ -33,7 +33,7 @@ you can easly find out the command line config by typing
 
 ``` bash
 ╭─tibthink@jarvis ~/minecraft-server  ‹main*› 
-╰─➤  python3 init-server.py --help                                                                                                                                                               2 ↵
+╰─➤  python3 init-server.py --help                                                                                                                                                               
 Usage: init-server.py [OPTIONS]
 
 Options:
