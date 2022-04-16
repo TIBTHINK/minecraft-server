@@ -241,8 +241,8 @@ systemctl enable minecraft.service
                 
                 
                 """)
-
-            open(pwd + "/backup.sh", 'w+').write("""#!/bin/bash
+            else:
+                open(pwd + "/backup.sh", 'w+').write("""#!/bin/bash
 
 function rcon {
 mcrcon -H 127.0.0.1 -P 25575 -p """ + password + """ "$1"
@@ -323,7 +323,8 @@ enable-rcon=true""")
                 print("You can start the server with ./start." + type_of_os)
         
         else:
-            print("")
+
+            print("ERROR: Missing either, version, ram or cores")
 
     if __name__ == '__main__':
         main()
