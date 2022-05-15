@@ -43,7 +43,7 @@ latest_release = remove_punct
 try:
   
     @click.command()
-    @click.option("-v", "--version", is_flag=False, flag_value=False, default=latest_release, help="Choose what version of the game(Defult: " + latest_release + ")")
+    @click.option("-v", "--version", is_flag=False, flag_value=latest_release, default=latest_release, help="Choose what version of the game(Defult: " + latest_release + ")")
     @click.option("-p", "--port", default=25565, is_flag=False, flag_value=25565, help="Set what port you want the server to run on")
     @click.option("-s", "--service", is_flag=False, flag_value="minecraft", default="minecraft", help="Sets the service name(Optional)")
     @click.option("-c", "--cores", default=core_count, is_flag=False, flag_value=core_count, help="Set how many cores you want the server to use")
@@ -55,8 +55,9 @@ try:
     @click.option("-b", "--backup", is_flag=True, flag_value=True, help="Sets up a backup script(McRcon is required for backups)")
     @click.option("-C", "--clean", is_flag=True, flag_value=True, help="Reverts back to a clean slate (THIS WILL REMOVE EVERYTHING THAT ISNT ALREADY IN THE REPO)")
     @click.option("-i", "--interactive", is_flag=True, flag_value=True, help="Enables interactive mode")
+    @click.option("-ub", "--update", is_flag=True, flag_value=True, help="Updates BuildTools.jar if " )
 
-    def main(version, cores, ram, port, service, pluginpack, yes, debug, rcon, backup, clean, interactive):
+    def main(version, cores, ram, port, service, pluginpack, yes, debug, rcon, backup, clean, interactive, update):
 
         
         # Checks if rcon, backup or service is called on a non linux machine
@@ -90,7 +91,6 @@ try:
             directory = next(os.walk("./"))[1]
             directory.remove(".git")
             clean = True
-
             if clean:
                 try:
                     for i in directory:
@@ -101,6 +101,8 @@ try:
                         os.remove(i)
                 except OSError as e:
                     print("Error: %s : %s" % (directory, e.strerror))
+            exit()
+
         # if interactive:
 
             
@@ -265,11 +267,11 @@ find """ + pwd + """/backups/ -type f -mtime +7 -name '*.gz' -delete
             cmd("git clone https://github.com/Tiiffi/mcrcon") 
             os.chdir('./mcrcon')
             cmd("make")
-            cmd("cp mcrcon /usr/bin/mcrcon")
+            cmd("sudo cp mcrcon /usr/bin/mcrcon")
             os.chdir('../')
             open(pwd + "/terminal.sh", 'w').write("mcrcon -H 127.0.0.1 -P 25575 -p " + password + " -t")
 
-        if not bool(version) and not bool(cores) and not bool(ram):
+        if bool(version) and bool(cores) and bool(ram):
 
             # It is indented correctly, dont try to fix it
             print("Checking if BuildTools in installed")
