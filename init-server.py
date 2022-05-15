@@ -75,6 +75,12 @@ try:
 
 
         if clean:
+            if not debug:
+                print("Warning: Using --clean will remove everything that is not whitelisted.\nThis includes world files and settings")
+                con = input("Are you sure you want to continue?[y/N]: ") or "n"
+                con += " "
+                if con[0].lower() == "n":
+                    exit("Goodbye")
 
             filenames = os.listdir("./")
             dont_remove_these_files = ["docker-build-test.sh", "docker.sh", "Dockerfile", ".gitignore", "init-server.py", "README.md", "requirements.txt", "test.py", ".git", "Bukkit", "Spigot", "BuildData", "backups", "CraftBukkit", "mcrcon", "work", "__pycache__", "plugins", "apache-maven-3.6.0"]
@@ -82,12 +88,9 @@ try:
             for i in dont_remove_these_files:
                 if i in filenames:
                     filenames.remove(i)
-                else:
-                    print("File does not exist")
-                # print(filenames)
 
 
-            print(filenames)
+            
             directory = next(os.walk("./"))[1]
             directory.remove(".git")
             clean = True
@@ -149,48 +152,32 @@ class plugins():
             os.mkdir(path)         
         open(pwd + "/plugins/" + name, 'wb').write(requests.get(url).content)
 
-if __name__ == '__main__':
-        print('[Downloading] | >                                     | 0% | 0/6\\r', end='', flush=True)
+    def main():
+        print('[Downloading] | >                                     | 0% | 0/6\r', end='', flush=True)
         plugins.github_downloader("https://api.github.com/repos/webbukkit/dynmap/releases", "Dynmap.jar")
         sys.stdout.flush()
-        print('[Downloading] | ======>                               | 16.6% | 1/6\\r', end='', flush=True)
+        print('[Downloading] | ======>                               | 16.6% | 1/6\r', end='', flush=True)
         plugins.github_downloader("https://api.github.com/repos/PryPurity/WorldBorder/releases", "WorldBorder.jar")
         sys.stdout.flush()
-        print('[Downloading] | ============>                         | 33.2% | 2/6\\r', end='', flush=True)
+        print('[Downloading] | ============>                         | 33.2% | 2/6\r', end='', flush=True)
         plugins.github_downloader("https://api.github.com/repos/EssentialsX/Essentials/releases", "EssentialsX.jar", 8 )
         sys.stdout.flush()
-        print('[Downloading] | ==================>                   | 49.8% | 3/6\\r', end='', flush=True)
+        print('[Downloading] | ==================>                   | 49.8% | 3/6\r', end='', flush=True)
         plugins.github_downloader_sr("https://api.github.com/repos/TIBTHINK/payRespect/releases", "PayRespect.jar")
         sys.stdout.flush()
-        print('[Downloading] | ========================>             | 66.4% | 4/6\\r', end='', flush=True)
+        print('[Downloading] | ========================>             | 66.4% | 4/6\r', end='', flush=True)
         plugins.jenkins_download("https://ci.opencollab.dev//job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/spigot/target/Geyser-Spigot.jar", "Geyser_Spigot.jar")
         sys.stdout.flush()
-        print('[Downloading] | ==============================>       | 83.0% | 5/6\\r', end='', flush=True)
+        print('[Downloading] | ==============================>       | 83.0% | 5/6\r', end='', flush=True)
         plugins.jenkins_download("https://ci.opencollab.dev/job/GeyserMC/job/Floodgate/job/master/lastSuccessfulBuild/artifact/spigot/target/floodgate-spigot.jar", "floodgate-spigot.jar")
         sys.stdout.flush()
-        print('[Downloading] | ====================================> |  100% | 6/6\\n', end='', flush=True)
+        print('[Downloading] | ====================================> |  100% | 6/6\n', end='', flush=True)
+
+if __name__ == '__main__':
+        main()
             """)
             from pluginpack import plugins
-            print("### DOWNLOADING PLUGINS ###")
-            print('[Downloading] | >                                     | 0% | 0/6\r', end='', flush=True)
-            plugins.github_downloader("https://api.github.com/repos/webbukkit/dynmap/releases", "Dynmap.jar")
-            sys.stdout.flush()
-            print('[Downloading] | ======>                               | 16.6% | 1/6\r', end='', flush=True)
-            plugins.github_downloader("https://api.github.com/repos/PryPurity/WorldBorder/releases", "WorldBorder.jar")
-            sys.stdout.flush()
-            print('[Downloading] | ============>                         | 33.2% | 2/6\r', end='', flush=True)
-            plugins.github_downloader("https://api.github.com/repos/EssentialsX/Essentials/releases", "EssentialsX.jar", 8 )
-            sys.stdout.flush()
-            print('[Downloading] | ==================>                   | 49.8% | 3/6\r', end='', flush=True)
-            plugins.github_downloader_sr("https://api.github.com/repos/TIBTHINK/payRespect/releases", "PayRespect.jar")
-            sys.stdout.flush()
-            print('[Downloading] | ========================>             | 66.4% | 4/6\r', end='', flush=True)
-            plugins.jenkins_download("https://ci.opencollab.dev//job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/spigot/target/Geyser-Spigot.jar", "Geyser_Spigot.jar")
-            sys.stdout.flush()
-            print('[Downloading] | ==============================>       | 83.0% | 5/6\r', end='', flush=True)
-            plugins.jenkins_download("https://ci.opencollab.dev/job/GeyserMC/job/Floodgate/job/master/lastSuccessfulBuild/artifact/spigot/target/floodgate-spigot.jar", "floodgate-spigot.jar")
-            sys.stdout.flush()
-            print('[Downloading] | ====================================> |  100% | 6/6\n', end='', flush=True)
+            plugins.main()
 
 
         def service_file():
